@@ -1,12 +1,16 @@
-CC     = g++
-CFLAGS = -c -Wall
-TARGET = modulus-prime
+# Compiler
+CXXFLAGS = -c -Wall -g
+LDFLAGS  =
 
-build: main.o
-	$(CC) main.o -o $(TARGET)
+# Structure
+src    = $(wildcard src/*.cpp)
+obj    = $(src:.c=.o)
+target = modulus-prime
 
-main.o: main.cpp
-	$(CC) $(CFLAGS) -c main.cpp
+$(target): $(obj)
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
 
 clean:
-	rm -f *o $(TARGET)
+	rm -f *o $(target)
+
+.PHONY: clean
