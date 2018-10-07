@@ -1,16 +1,17 @@
 # Compiler
-CXXFLAGS = -c -Wall -g
+CXXFLAGS = -Wall -g
 LDFLAGS  =
 
 # Structure
 src    = $(wildcard src/*.cpp)
 obj    = $(src:.c=.o)
 target = modulus-prime
+dest   = bin
 
-$(target): $(obj)
-	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
+modulus-prime: $(obj)
+	$(CXX) $(CXXFLAGS) $^ -o $(dest)/$@ $(LDFLAGS)
 
 clean:
-	rm -f *o $(target)
+	rm -f *.o $(target)
 
 .PHONY: clean
