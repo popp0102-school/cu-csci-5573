@@ -1,4 +1,4 @@
 *.swp
 *.swo
 *.o
-modulus-prime
+bin/modulus-prime
