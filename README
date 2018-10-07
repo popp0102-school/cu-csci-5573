@@ -4,3 +4,8 @@ Members
 - Jason Poppler
 - Grant Pedersen
 - Kaicheng Yang
+
+Make Project:
+* make - create modulus-prime executable in bin
+* make clean - clean up files produced from make
+
