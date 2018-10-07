@@ -1,9 +1,8 @@
-#include <iostream>
-
-using namespace std;
+#include "scheduler.h"
 
 int main() {
-  cout << "Hello World";
+  Scheduler *mp_scheduler = new Scheduler();
+  mp_scheduler->Execute();
 
   return 0;
 }
