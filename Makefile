@@ -1,22 +1,28 @@
-src_dir        = ./src
-os_dir         = $(src_dir)/os
-test_build_dir = ./test/build
+BIN_DIR = $(CURDIR)/bin
+SRC_DIR = $(CURDIR)/src
+OS_DIR  = $(SRC_DIR)/os
 
 CXXFLAGS = -Wall -g
 LDFLAGS  =
-INCLUDES = -I $(os_dir)
+INCLUDES = -I $(OS_DIR)
 
-src_files = $(wildcard $(src_dir)/*.cpp) \
-            $(wildcard $(os_dir)/*.cpp)
-obj_files = $(src_files:.c=.o)
-target    = bin/modulus-prime
+src_files   = $(wildcard $(SRC_DIR)/*.cpp) \
+              $(wildcard $(OS_DIR)/*.cpp)
+obj_files   = $(src_files:.c=.o)
+app         = modulusPrime
+
+export BIN_DIR
+
+app: create_bin modulus-prime
 
 modulus-prime: $(obj_files)
-	$(CXX) $(CXXFLAGS) $(INCLUDES) $^ -o $(target) $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $^ -o bin/$(app) $(LDFLAGS)
 
-tests:
-	cd test/build && cmake .. && make
-	$(test_build_dir)/runTests
+create_bin:
+	mkdir -p $(BIN_DIR)
+
+tests: create_bin
+	$(MAKE) -C test tests
 
 install_gtest:
 	sudo apt-get --yes install libgtest-dev
@@ -26,6 +32,7 @@ install_gtest:
 	sudo cp /usr/src/gtest/*.a /usr/lib
 
 clean:
-	rm -rf $(target) $(test_build_dir)/*
+	rm -rf $(BIN_DIR)
+	$(MAKE) -C test clean
 
 .PHONY: clean
