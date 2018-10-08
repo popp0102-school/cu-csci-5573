@@ -1,4 +1,7 @@
-export BIN_DIR = $(CURDIR)/bin
+BIN_DIR   = $(CURDIR)/bin
+GTEST_DIR = /usr/src/gtest
+
+export BIN_DIR
 
 all: app tests
 
@@ -14,9 +17,9 @@ create_bin:
 install:
 	sudo apt-get --yes install libgtest-dev
 	sudo apt-get --yes install cmake
-	sudo cmake /usr/src/gtest/CMakeLists.txt
-	sudo make -C /usr/src/gtest
-	sudo cp /usr/src/gtest/*.a /usr/lib
+	sudo cmake $(GTEST_DIR)/CMakeLists.txt
+	sudo make -C $(GTEST_DIR)
+	sudo cp $(GTEST_DIR)/*.a /usr/lib
 
 clean:
 	rm -rf $(BIN_DIR)
