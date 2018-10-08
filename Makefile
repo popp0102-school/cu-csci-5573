@@ -8,10 +8,10 @@ INCLUDES = -I $(os_dir)
 
 src_files = $(wildcard $(src_dir)/*.cpp) \
             $(wildcard $(os_dir)/*.cpp)
-obj_files = $(src:.c=.o)
+obj_files = $(src_files:.c=.o)
 target    = bin/modulus-prime
 
-modulus-prime: $(obj)
+modulus-prime: $(obj_files)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $^ -o $(target) $(LDFLAGS)
 
 tests:

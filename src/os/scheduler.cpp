@@ -9,7 +9,5 @@ Scheduler::Scheduler() {
 
 void Scheduler::Execute() {
   cout << "Running the scheduler\n";
-
-  return 1;
 }
 
