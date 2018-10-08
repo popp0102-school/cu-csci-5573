@@ -1,10 +1,22 @@
 # Locations
-BUILD_DIR = $(CURDIR)/build
-TEST_APP  = $(BUILD_DIR)/runTests
+TEST_DIR    = $(CURDIR)
+BUILD_DIR   = $(TEST_DIR)/build
+TEST_APP    = $(BUILD_DIR)/runTests
+OS_TEST_DIR = $(TEST_DIR)/os
+TEST_FILES  = $(wildcard $(TEST_DIR)/*.cpp) \
+              $(wildcard $(OS_TEST_DIR)/*.cpp)
+OBJ_FILES   = $(TEST_FILES:.c=.o)
 
-tests: create_build_dir
-	cd build && cmake .. && make
+# Compiler
+LD_FLAGS   = -lgtest -lpthread
+CXX_FLAGS  = -Wall -g
+INCLUDES   =
+
+tests: create_build_dir test_app
 	if [ -d "$(BIN_DIR)" ]; then ln -srf $(TEST_APP) $(BIN_DIR); fi
+
+test_app:
+	$(CXX) $(CXX_FLAGS) $(INCLUDES) main.cpp os/scheduler_test.cpp -o $(TEST_APP) $(LD_FLAGS)
 
 create_build_dir:
 	mkdir -p $(BUILD_DIR)
