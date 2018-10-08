@@ -14,7 +14,9 @@ tests: create_bin
 create_bin:
 	mkdir -p $(BIN_DIR)
 
-install:
+install: gtest_install
+
+gtest_install:
 	sudo apt-get --yes install libgtest-dev
 	sudo apt-get --yes install cmake
 	sudo cmake $(GTEST_DIR)/CMakeLists.txt
