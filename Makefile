@@ -1,19 +1,31 @@
-# Compiler
+src_dir        = ./src
+os_dir         = $(src_dir)/os
+test_build_dir = ./test/build
+
 CXXFLAGS = -Wall -g
 LDFLAGS  =
-INCLUDES = -I src/os
+INCLUDES = -I $(os_dir)
 
-# Structure
-src    = $(wildcard src/*.cpp) \
-         $(wildcard src/os/*.cpp)
-         $(wildcard src/os/scheduler/*.cpp)
-obj    = $(src:.c=.o)
-target = bin/modulus-prime
+src_files = $(wildcard $(src_dir)/*.cpp) \
+            $(wildcard $(os_dir)/*.cpp)
+obj_files = $(src:.c=.o)
+target    = bin/modulus-prime
 
 modulus-prime: $(obj)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $^ -o $(target) $(LDFLAGS)
 
+tests:
+	cd test/build && cmake .. && make
+	$(test_build_dir)/runTests
+
+install_gtest:
+	sudo apt-get --yes install libgtest-dev
+	sudo apt-get --yes install cmake
+	sudo cmake /usr/src/gtest/CMakeLists.txt
+	sudo make -C /usr/src/gtest
+	sudo cp /usr/src/gtest/*.a /usr/lib
+
 clean:
-	rm -f *.o $(target)
+	rm -rf $(target) $(test_build_dir)/*
 
 .PHONY: clean
