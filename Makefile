@@ -1,30 +1,17 @@
-BIN_DIR = $(CURDIR)/bin
-SRC_DIR = $(CURDIR)/src
-OS_DIR  = $(SRC_DIR)/os
+export BIN_DIR = $(CURDIR)/bin
 
-CXXFLAGS = -Wall -g
-LDFLAGS  =
-INCLUDES = -I $(OS_DIR)
+all: app tests
 
-src_files   = $(wildcard $(SRC_DIR)/*.cpp) \
-              $(wildcard $(OS_DIR)/*.cpp)
-obj_files   = $(src_files:.c=.o)
-app         = modulusPrime
-
-export BIN_DIR
-
-app: create_bin modulus-prime
-
-modulus-prime: $(obj_files)
-	$(CXX) $(CXXFLAGS) $(INCLUDES) $^ -o bin/$(app) $(LDFLAGS)
-
-create_bin:
-	mkdir -p $(BIN_DIR)
+app: create_bin
+	$(MAKE) -C src modulus-prime
 
 tests: create_bin
 	$(MAKE) -C test tests
 
-install_gtest:
+create_bin:
+	mkdir -p $(BIN_DIR)
+
+install:
 	sudo apt-get --yes install libgtest-dev
 	sudo apt-get --yes install cmake
 	sudo cmake /usr/src/gtest/CMakeLists.txt
@@ -36,3 +23,4 @@ clean:
 	$(MAKE) -C test clean
 
 .PHONY: clean
+
