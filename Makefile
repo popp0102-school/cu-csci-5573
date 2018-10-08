@@ -3,7 +3,7 @@ export BIN_DIR = $(CURDIR)/bin
 all: app tests
 
 app: create_bin
-	$(MAKE) -C src modulus-prime
+	$(MAKE) -C src app
 
 tests: create_bin
 	$(MAKE) -C test tests
@@ -20,6 +20,7 @@ install:
 
 clean:
 	rm -rf $(BIN_DIR)
+	$(MAKE) -C src clean
 	$(MAKE) -C test clean
 
 .PHONY: clean

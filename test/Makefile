@@ -1,12 +1,16 @@
-TEST_BUILD_DIR = $(CURDIR)/build
-TEST_APP       = runTests
+# Locations
+BUILD_DIR = $(CURDIR)/build
+TEST_APP  = $(BUILD_DIR)/runTests
 
-tests:
+tests: create_build_dir
 	cd build && cmake .. && make
-	if [ -d "$(BIN_DIR)" ]; then ln -srf $(TEST_BUILD_DIR)/$(TEST_APP) $(BIN_DIR); fi
+	if [ -d "$(BIN_DIR)" ]; then ln -srf $(TEST_APP) $(BIN_DIR); fi
+
+create_build_dir:
+	mkdir -p $(BUILD_DIR)
 
 clean:
-	rm -rf $(TEST_BUILD_DIR)/*
+	rm -rf $(BUILD_DIR)
 
-.PHONY: clean
+.PHONY: clean create_build_dir
 

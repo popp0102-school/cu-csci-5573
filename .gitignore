@@ -2,5 +2,5 @@
 *.swo
 *.o
 bin
+src/build
 test/build
-src/modulusPrime
