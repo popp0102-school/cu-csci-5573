@@ -3,6 +3,7 @@
 *.o
 bin/modulusPrime*
 bin/runTests*
+build/*
 src/*.d
 src/*.o
 test/build
