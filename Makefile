@@ -2,6 +2,7 @@ APP      := modulusPrime
 TESTAPP  := runTests
 BINDIR   := bin
 SRCDIR   := src
+BUILDDIR := build
 
 CXX      := g++
 LINKER   := g++
@@ -10,8 +11,8 @@ LDFLAGS  := -lgtest -lpthread
 INCLUDES := -I ./include
 
 SRCFILES := $(wildcard $(SRCDIR)/*.cpp)
-OBJFILES := $(SRCFILES:.cpp=.o)
-DEPFILES := $(SRCFILES:.cpp=.d)
+OBJFILES := $(patsubst $(SRCDIR)/%.cpp, $(BUILDDIR)/%.o, $(SRCFILES))
+DEPFILES := $(patsubst $(SRCDIR)/%.cpp, $(BUILDDIR)/%.d, $(SRCFILES))
 
 all: app test
 
@@ -20,12 +21,12 @@ app: $(BINDIR)/$(APP)
 test: $(BINDIR)/$(TESTAPP)
 
 $(BINDIR)/$(APP): $(OBJFILES)
-	$(LINKER) $^ -o $@
+	$(LINKER) $(CXXFLAGS) $^ -o $@
 
-%.o: %.cpp
+$(BUILDDIR)/%.o: $(SRCDIR)/%.cpp
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
 
-%.d: %.cpp
+$(BUILDDIR)/%.d: $(SRCDIR)/%.cpp
 	$(CXX) $(INCLUDES) -MM $< > $@
 
 $(BINDIR)/$(TESTAPP):
@@ -35,7 +36,7 @@ install:
 	bin/install
 
 clean:
-	rm -rf $(BINDIR)/$(APP)* $(BINDIR)/$(TESTAPP)* $(SRCDIR)/*.o $(SRCDIR)/*.d
+	rm -rf $(BINDIR)/$(APP)* $(BINDIR)/$(TESTAPP)* $(BUILDDIR)/*
 
 -include $(DEPFILES)
 
