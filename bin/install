@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+function Main {
+  UNAME=`uname`
+
+  if [ $(UNAME) == "Darwin" ]; then
+    InstallMac
+
+  else
+    InstallLinux
+  fi
+}
+
+function InstallLinux {
+  echo "Installing for Linux OS"
+
+  GTESTDIR=/usr/src/test
+
+  sudo apt-get --yes install libgtest-dev
+  sudo apt-get --yes install cmake
+  sudo cmake $(GTESTDIR)/CMakeLists.txt
+  sudo make -C $(GTESTDIR)
+  sudo cp $(GTESTDIR)/*.a /usr/lib
+}
+
+function InstallMac {
+  echo "Installing for Mac OS"
+
+  brew install cmake
+  git clone https://github.com/google/googletest
+  mkdir -p googletest/build
+  cmake googletest/CMakeLists.txt
+  cd googletest make && make install
+  cd ..
+  rm -rf googletest
+}
+
+Main
