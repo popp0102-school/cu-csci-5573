@@ -10,17 +10,17 @@ SRCDIR   = src
 SRCFILES = $(wildcard $(SRCDIR)/*.cpp)
 OBJFILES = $(SRCFILES:.c=.o)
 
-CXXFLAGS = -Wall -g
-LD_FLAGS =
+CXXFLAGS = -Wall -std=c++11 -g
+LD_FLAGS = -lgtest -lpthread
 INCLUDES = -I ./src
 
 all: app tests
 
 app: $(OBJFILES)
-	$(CXX) $(CXX_FLAGS) $(INCLUDES) $^ -o $(BINDIR)/modulusPrime $(LD_FLAGS)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $^ -o $(BINDIR)/modulusPrime $(LD_FLAGS)
 
 tests:
-	$(MAKE) -C test tests
+	$(CXX) $(CXXFLAGS) $(INCLUDES) src/scheduler.cpp test/main.cpp test/scheduler_test.cpp -o $(BINDIR)/runTests $(LD_FLAGS)
 
 install:
 ifeq ($(UNAME), Darwin)
@@ -45,9 +45,7 @@ gtest_install_linux:
 	sudo cp $(GTEST_SRC_DIR)/*.a /usr/lib
 
 clean:
-	rm -rf $(BINDIR)
-	$(MAKE) -C src clean
-	$(MAKE) -C test clean
+	rm -rf $(BINDIR)/modulusPrime* $(BINDIR)/runTests*
 
 .PHONY: clean
 

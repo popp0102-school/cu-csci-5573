@@ -1,6 +1,7 @@
 *.swp
 *.swo
 *.o
-bin/modulusPrime
+bin/modulusPrime*
+bin/runTests*
 src/build
 test/build
