@@ -7,7 +7,7 @@ CXX      := g++
 LINKER   := g++
 CXXFLAGS := -Wall -std=c++11 -g
 LD_FLAGS := -lgtest -lpthread
-INCLUDES := -I ./src
+INCLUDES := -I ./include
 
 SRCFILES := $(wildcard $(SRCDIR)/*.cpp)
 OBJFILES := $(SRCFILES:.cpp=.o)
