@@ -2,6 +2,7 @@ APP      := modulusPrime
 TESTAPP  := runTests
 BINDIR   := bin
 SRCDIR   := src
+TESTDIR  := test
 BUILDDIR := build
 
 CXX      := g++
@@ -13,6 +14,8 @@ INCLUDES := -I ./include
 SRCFILES := $(wildcard $(SRCDIR)/*.cpp)
 OBJFILES := $(patsubst $(SRCDIR)/%.cpp, $(BUILDDIR)/%.o, $(SRCFILES))
 DEPFILES := $(patsubst $(SRCDIR)/%.cpp, $(BUILDDIR)/%.d, $(SRCFILES))
+
+TESTFILES := $(wildcard $(TESTDIR)/*.cpp)
 
 all: app test
 
@@ -30,7 +33,7 @@ $(BUILDDIR)/%.d: $(SRCDIR)/%.cpp
 	$(CXX) $(INCLUDES) -MM $< > $@
 
 $(BINDIR)/$(TESTAPP):
-	$(CXX) $(CXXFLAGS) $(INCLUDES) src/scheduler.cpp test/main.cpp test/scheduler_test.cpp -o $@ $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) src/scheduler.cpp $(TESTFILES) -o $@ $(LDFLAGS)
 
 install:
 	bin/install
