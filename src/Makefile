@@ -17,7 +17,7 @@ app: create_build_dir modulus-prime
 
 modulus-prime: $(OBJ_FILES)
 	$(CXX) $(CXX_FLAGS) $(INCLUDES) $^ -o $(APP) $(LD_FLAGS)
-	if [ -d "$(BIN_DIR)" ]; then ln -srf $(APP) $(BIN_DIR); fi
+	if [ -d "$(BIN_DIR)" ]; then ln -sf $(APP) $(BIN_DIR); fi
 
 create_build_dir:
 	mkdir -p $(BUILD_DIR)
