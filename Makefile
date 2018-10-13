@@ -1,3 +1,5 @@
+APP      = modulusPrime
+TESTAPP  = runTests
 BINDIR   = bin
 SRCDIR   = src
 SRCFILES = $(wildcard $(SRCDIR)/*.cpp)
@@ -10,16 +12,16 @@ INCLUDES = -I ./src
 all: app tests
 
 app: $(OBJFILES)
-	$(CXX) $(CXXFLAGS) $(INCLUDES) $^ -o $(BINDIR)/modulusPrime $(LD_FLAGS)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $^ -o $(BINDIR)/$(APP) $(LD_FLAGS)
 
 tests:
-	$(CXX) $(CXXFLAGS) $(INCLUDES) src/scheduler.cpp test/main.cpp test/scheduler_test.cpp -o $(BINDIR)/runTests $(LD_FLAGS)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) src/scheduler.cpp test/main.cpp test/scheduler_test.cpp -o $(BINDIR)/$(TESTAPP) $(LD_FLAGS)
 
 install:
 	bin/install
 
 clean:
-	rm -rf $(BINDIR)/modulusPrime* $(BINDIR)/runTests*
+	rm -rf $(BINDIR)/$(APP)* $(BINDIR)/$(TESTAPP)*
 
 .PHONY: clean
 
