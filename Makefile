@@ -1,7 +1,3 @@
-export BINDIR
-export UNAME
-
-
 BINDIR   = bin
 SRCDIR   = src
 SRCFILES = $(wildcard $(SRCDIR)/*.cpp)
