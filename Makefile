@@ -1,20 +1,18 @@
 APP      := modulusPrime
 TESTAPP  := runTests
 BINDIR   := bin
-SRCDIR   := src/os
+SRCDIR   := src
 TESTDIR  := test
-BUILDDIR := build
 
 CXX      := g++
 LINKER   := g++
 CXXFLAGS := -Wall -std=c++11 -g
 LDFLAGS  := -lgtest -lpthread
-INCLUDES := -I ./include
+INCLUDES := -I ./include/*
 
-SRCFILES := $(wildcard $(SRCDIR)/*.cpp)
-OBJFILES := $(patsubst $(SRCDIR)/%.cpp, $(BUILDDIR)/%.o, $(SRCFILES))
-
-TESTFILES := $(wildcard $(TESTDIR)/*.cpp)
+SRCFILES  := $(shell find $(SRCDIR) -type f -name '*.cpp' -not -path $(SRCDIR)/main.cpp)
+APPFILES  := $(SRCFILES) $(SRCDIR)/main.cpp
+TESTFILES := $(shell find $(TESTDIR) -type f -name '*cpp')
 
 all: app test
 
@@ -22,14 +20,8 @@ app: $(BINDIR)/$(APP)
 
 test: $(BINDIR)/$(TESTAPP)
 
-$(BINDIR)/$(APP): $(OBJFILES) build/main.o
-	$(LINKER) $(CXXFLAGS) $^ -o $@
-
-build/main.o: src/main.cpp
-	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
-
-$(BUILDDIR)/%.o: $(SRCDIR)/%.cpp
-	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
+$(BINDIR)/$(APP):
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $(APPFILES) -o $@ $(LDFLAGS)
 
 $(BINDIR)/$(TESTAPP):
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $(SRCFILES) $(TESTFILES) -o $@ $(LDFLAGS)
@@ -38,7 +30,7 @@ install:
 	bin/install
 
 clean:
-	rm -rf $(BINDIR)/$(APP)* $(BINDIR)/$(TESTAPP)* $(BUILDDIR)/*
+	rm -rf $(BINDIR)/$(APP)* $(BINDIR)/$(TESTAPP)*
 
 .PHONY: clean
 
