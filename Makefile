@@ -1,13 +1,16 @@
-APP      = modulusPrime
-TESTAPP  = runTests
-BINDIR   = bin
-SRCDIR   = src
-SRCFILES = $(wildcard $(SRCDIR)/*.cpp)
-OBJFILES = $(SRCFILES:.cpp=.o)
+APP      := modulusPrime
+TESTAPP  := runTests
+BINDIR   := bin
+SRCDIR   := src
 
-CXXFLAGS = -Wall -std=c++11 -g
-LD_FLAGS = -lgtest -lpthread
-INCLUDES = -I ./src
+CXX      := g++
+CXXFLAGS := -Wall -std=c++11 -g
+LD_FLAGS := -lgtest -lpthread
+INCLUDES := -I ./src
+
+SRCFILES := $(wildcard $(SRCDIR)/*.cpp)
+OBJFILES := $(SRCFILES:.cpp=.o)
+
 
 all: app tests
 
