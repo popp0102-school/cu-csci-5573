@@ -1,20 +1,26 @@
 UNAME         = $(shell uname)
-BIN_DIR       = $(CURDIR)/bin
 GTEST_SRC_DIR = /usr/src/gtest
 
-export BIN_DIR
+export BINDIR
 export UNAME
+
+
+BINDIR   = bin
+SRCDIR   = src
+SRCFILES = $(wildcard $(SRCDIR)/*.cpp)
+OBJFILES = $(SRCFILES:.c=.o)
+
+CXXFLAGS = -Wall -g
+LD_FLAGS =
+INCLUDES = -I ./src
 
 all: app tests
 
-app: create_bin
-	$(MAKE) -C src app
+app: $(OBJFILES)
+	$(CXX) $(CXX_FLAGS) $(INCLUDES) $^ -o $(BINDIR)/modulusPrime $(LD_FLAGS)
 
-tests: create_bin
+tests:
 	$(MAKE) -C test tests
-
-create_bin:
-	mkdir -p $(BIN_DIR)
 
 install:
 ifeq ($(UNAME), Darwin)
@@ -39,7 +45,7 @@ gtest_install_linux:
 	sudo cp $(GTEST_SRC_DIR)/*.a /usr/lib
 
 clean:
-	rm -rf $(BIN_DIR)
+	rm -rf $(BINDIR)
 	$(MAKE) -C src clean
 	$(MAKE) -C test clean
 
