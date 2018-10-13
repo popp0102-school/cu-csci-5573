@@ -1,7 +1,7 @@
 APP      := modulusPrime
 TESTAPP  := runTests
 BINDIR   := bin
-SRCDIR   := src
+SRCDIR   := src/os
 TESTDIR  := test
 BUILDDIR := build
 
@@ -13,7 +13,6 @@ INCLUDES := -I ./include
 
 SRCFILES := $(wildcard $(SRCDIR)/*.cpp)
 OBJFILES := $(patsubst $(SRCDIR)/%.cpp, $(BUILDDIR)/%.o, $(SRCFILES))
-DEPFILES := $(patsubst $(SRCDIR)/%.cpp, $(BUILDDIR)/%.d, $(SRCFILES))
 
 TESTFILES := $(wildcard $(TESTDIR)/*.cpp)
 
@@ -23,25 +22,23 @@ app: $(BINDIR)/$(APP)
 
 test: $(BINDIR)/$(TESTAPP)
 
-$(BINDIR)/$(APP): $(OBJFILES)
+$(BINDIR)/$(APP): $(OBJFILES) build/main.o
 	$(LINKER) $(CXXFLAGS) $^ -o $@
+
+build/main.o: src/main.cpp
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.cpp
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
 
-$(BUILDDIR)/%.d: $(SRCDIR)/%.cpp
-	$(CXX) $(INCLUDES) -MM $< > $@
-
 $(BINDIR)/$(TESTAPP):
-	$(CXX) $(CXXFLAGS) $(INCLUDES) src/scheduler.cpp $(TESTFILES) -o $@ $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $(SRCFILES) $(TESTFILES) -o $@ $(LDFLAGS)
 
 install:
 	bin/install
 
 clean:
 	rm -rf $(BINDIR)/$(APP)* $(BINDIR)/$(TESTAPP)* $(BUILDDIR)/*
-
--include $(DEPFILES)
 
 .PHONY: clean
 
