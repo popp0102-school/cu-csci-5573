@@ -1,6 +1,5 @@
 *.swp
 *.swo
 *.o
-bin
 src/build
 test/build
