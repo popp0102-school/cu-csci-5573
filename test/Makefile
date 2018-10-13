@@ -10,13 +10,13 @@ OBJ_FILES   = $(TEST_FILES:.c=.o)
 # Compiler
 LD_FLAGS   = -lgtest -lpthread
 CXX_FLAGS  = -Wall -g -std=c++11
-INCLUDES   =
+INCLUDES   = -I../src/os/
 
 tests: create_build_dir test_app
 	if [ -d "$(BIN_DIR)" ]; then ln -sf $(TEST_APP) $(BIN_DIR); fi
 
 test_app:
-	$(CXX) $(CXX_FLAGS) $(INCLUDES) main.cpp os/scheduler_test.cpp -o $(TEST_APP) $(LD_FLAGS)
+	$(CXX) $(CXX_FLAGS) $(INCLUDES) ../src/os/scheduler.cpp main.cpp os/scheduler_test.cpp -o $(TEST_APP) $(LD_FLAGS)
 
 create_build_dir:
 	mkdir -p $(BUILD_DIR)
