@@ -1,7 +1,7 @@
 BINDIR   = bin
 SRCDIR   = src
 SRCFILES = $(wildcard $(SRCDIR)/*.cpp)
-OBJFILES = $(SRCFILES:.c=.o)
+OBJFILES = $(SRCFILES:.cpp=.o)
 
 CXXFLAGS = -Wall -std=c++11 -g
 LD_FLAGS = -lgtest -lpthread
