@@ -4,8 +4,12 @@ Members
 - Jason Poppler
 - Grant Pedersen
 - Kaicheng Yang
+- Natalie Plotkin
 
 Make Project:
-* make - create modulus-prime executable in bin
-* make clean - clean up files produced from make
+* make
+   - create modulusPrime executable in bin
+   - create runTests executable in bin
+* make clean
+  - clean up files produced from make
 
