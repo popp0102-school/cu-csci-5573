@@ -1,7 +1,9 @@
+UNAME         = $(shell uname)
 BIN_DIR       = $(CURDIR)/bin
 GTEST_SRC_DIR = /usr/src/gtest
 
 export BIN_DIR
+export UNAME
 
 all: app tests
 
@@ -14,9 +16,22 @@ tests: create_bin
 create_bin:
 	mkdir -p $(BIN_DIR)
 
-install: gtest_install
+install:
+ifeq ($(UNAME), Darwin)
+	$(MAKE) gtest_install_mac
+else
+	$(MAKE) gtest_install_linux
+endif
 
-gtest_install:
+gtest_install_mac:
+	brew install cmake
+	git clone https://github.com/google/googletest
+	mkdir -p googletest/build
+	cmake googletest/CMakeLists.txt
+	cd googletest make && make install
+	rm -rf googletest
+
+gtest_install_linux:
 	sudo apt-get --yes install libgtest-dev
 	sudo apt-get --yes install cmake
 	sudo cmake $(GTEST_SRC_DIR)/CMakeLists.txt
