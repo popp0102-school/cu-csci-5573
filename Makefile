@@ -6,15 +6,21 @@ SRCDIR   := src
 CXX      := g++
 LINKER   := g++
 CXXFLAGS := -Wall -std=c++11 -g
-LD_FLAGS := -lgtest -lpthread
+LDFLAGS  := -lgtest -lpthread
 INCLUDES := -I ./include
 
 SRCFILES := $(wildcard $(SRCDIR)/*.cpp)
 OBJFILES := $(SRCFILES:.cpp=.o)
 DEPFILES := $(SRCFILES:.cpp=.d)
 
-$(APP): $(OBJFILES)
-	$(LINKER) $^ -o $(BINDIR)/$(APP)
+all: app test
+
+app: $(BINDIR)/$(APP)
+
+test: $(BINDIR)/$(TESTAPP)
+
+$(BINDIR)/$(APP): $(OBJFILES)
+	$(LINKER) $^ -o $@
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
@@ -22,8 +28,8 @@ $(APP): $(OBJFILES)
 %.d: %.cpp
 	$(CXX) $(INCLUDES) -MM $< > $@
 
-tests:
-	$(CXX) $(CXXFLAGS) $(INCLUDES) src/scheduler.cpp test/main.cpp test/scheduler_test.cpp -o $(BINDIR)/$(TESTAPP) $(LD_FLAGS)
+$(BINDIR)/$(TESTAPP):
+	$(CXX) $(CXXFLAGS) $(INCLUDES) src/scheduler.cpp test/main.cpp test/scheduler_test.cpp -o $@ $(LDFLAGS)
 
 install:
 	bin/install
