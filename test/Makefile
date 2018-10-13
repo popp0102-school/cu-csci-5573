@@ -2,21 +2,19 @@
 TEST_DIR    = $(CURDIR)
 BUILD_DIR   = $(TEST_DIR)/build
 TEST_APP    = $(BUILD_DIR)/runTests
-OS_TEST_DIR = $(TEST_DIR)/os
-TEST_FILES  = $(wildcard $(TEST_DIR)/*.cpp) \
-              $(wildcard $(OS_TEST_DIR)/*.cpp)
+TEST_FILES  = $(wildcard $(TEST_DIR)/*.cpp)
 OBJ_FILES   = $(TEST_FILES:.c=.o)
 
 # Compiler
 LD_FLAGS   = -lgtest -lpthread
 CXX_FLAGS  = -Wall -g -std=c++11
-INCLUDES   = -I../src/os/
+INCLUDES   = -I../src
 
 tests: create_build_dir test_app
 	if [ -d "$(BIN_DIR)" ]; then ln -sf $(TEST_APP) $(BIN_DIR); fi
 
 test_app:
-	$(CXX) $(CXX_FLAGS) $(INCLUDES) ../src/os/scheduler.cpp main.cpp os/scheduler_test.cpp -o $(TEST_APP) $(LD_FLAGS)
+	$(CXX) $(CXX_FLAGS) $(INCLUDES) ../src/scheduler.cpp main.cpp scheduler_test.cpp -o $(TEST_APP) $(LD_FLAGS)
 
 create_build_dir:
 	mkdir -p $(BUILD_DIR)

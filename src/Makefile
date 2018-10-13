@@ -3,15 +3,13 @@ BUILD_DIR = $(CURDIR)/build
 APP       = $(BUILD_DIR)/modulusPrime
 
 SRC_DIR   = $(CURDIR)
-OS_DIR    = $(SRC_DIR)/os
-SRC_FILES = $(wildcard $(SRC_DIR)/*.cpp) \
-            $(wildcard $(OS_DIR)/*.cpp)
+SRC_FILES = $(wildcard $(SRC_DIR)/*.cpp)
 OBJ_FILES = $(SRC_FILES:.c=.o)
 
 # Compiler
 CXX_FLAGS = -Wall -g
 LD_FLAGS  =
-INCLUDES  = -I $(OS_DIR)
+INCLUDES  = -I .
 
 app: create_build_dir modulus-prime
 
