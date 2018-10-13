@@ -1,5 +1,6 @@
 *.swp
 *.swo
 *.o
+bin/modulusPrime
 src/build
 test/build
