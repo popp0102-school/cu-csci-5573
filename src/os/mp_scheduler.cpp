@@ -4,10 +4,8 @@
 using namespace std;
 
 MP_Scheduler::MP_Scheduler() {
-  cout << "Constructing a scheduler\n";
 }
 
-void MP_Scheduler::Execute() {
-  cout << "Running the scheduler\n";
+void MP_Scheduler::run() {
 }
 

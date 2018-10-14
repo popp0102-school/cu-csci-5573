@@ -9,7 +9,8 @@ class MP_OS {
 
   public:
     MP_OS();
-    void Execute();
+    void run();
+    void mpthread_create();
 };
 
 #endif

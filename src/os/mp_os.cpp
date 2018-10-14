@@ -4,14 +4,13 @@
 using namespace std;
 
 MP_OS::MP_OS() {
-  cout << "Constructing MP_OS\n";
   mp_scheduler = new MP_Scheduler();
 
-  cout << "MP_OS complete\n";
 }
 
-void MP_OS::Execute() {
-  cout << "Executing Scheduler\n";
-  mp_scheduler->Execute();
+void MP_OS::mpthread_create() {
+}
+
+void MP_OS::run() {
 }
 

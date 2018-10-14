@@ -4,7 +4,7 @@
 class MP_Scheduler {
   public:
     MP_Scheduler();
-    void Execute();
+    void run();
 };
 
 #endif
