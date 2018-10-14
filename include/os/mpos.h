@@ -1,14 +1,14 @@
-#ifndef MP_H
-#define MP_H
+#ifndef MPOS_H
+#define MPOS_H
 
 #include "scheduler.h"
 
-class MP {
+class MPOS {
   private:
     Scheduler *mp_scheduler;
 
   public:
-    MP();
+    MPOS();
     void Execute();
 };
 

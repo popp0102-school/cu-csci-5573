@@ -1,7 +1,7 @@
-#include "mp.h"
+#include "mpos.h"
 
 int main() {
-  MP *modulus_prime = new MP();
+  MPOS *modulus_prime = new MPOS();
   modulus_prime->Execute();
 
   return 0;
