@@ -1,8 +1,21 @@
-#include "scheduler.h"
+#include "mp_os.h"
+#include <iostream>
+
+void function1() {
+  std::cout << "function 1 here\n";
+}
+
+void function2() {
+  std::cout << "function 2 here\n";
+}
 
 int main() {
-  Scheduler *mp_scheduler = new Scheduler();
-  mp_scheduler->Execute();
+  MP_OS *mpos = new MP_OS();
+
+  mpos->thread_create(function1);
+  mpos->thread_create(function2);
+
+  mpos->run();
 
   return 0;
 }
