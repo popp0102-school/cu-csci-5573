@@ -1,16 +1,16 @@
-#include "mp.h"
+#include "mpos.h"
 #include <iostream>
 
 using namespace std;
 
-MP::MP() {
-  cout << "Constructing MP\n";
+MPOS::MPOS() {
+  cout << "Constructing MPOS\n";
   mp_scheduler = new Scheduler();
 
-  cout << "MP complete\n";
+  cout << "MPOS complete\n";
 }
 
-void MP::Execute() {
+void MPOS::Execute() {
   cout << "Executing Scheduler\n";
   mp_scheduler->Execute();
 }

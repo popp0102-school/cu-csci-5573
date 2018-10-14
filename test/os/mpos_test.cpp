@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
-#include "mp.h"
+#include "mpos.h"
 
-TEST(MP, Execute) {
-  MP *modulus_prime = new MP();
+TEST(MPOS, Execute) {
+  MPOS *modulus_prime = new MPOS();
 
   EXPECT_NO_THROW(modulus_prime->Execute());
 };
