@@ -7,6 +7,9 @@ Members
 - Natalie Plotkin
 
 Make Project:
+* install
+  - to install any dependencies needed for
+    the project
 * make
    - create modulusPrime executable in bin
    - create runTests executable in bin
