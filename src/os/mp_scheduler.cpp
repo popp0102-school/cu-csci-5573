@@ -1,13 +1,13 @@
-#include "scheduler.h"
+#include "mp_scheduler.h"
 #include <iostream>
 
 using namespace std;
 
-Scheduler::Scheduler() {
+MP_Scheduler::MP_Scheduler() {
   cout << "Constructing a scheduler\n";
 }
 
-void Scheduler::Execute() {
+void MP_Scheduler::Execute() {
   cout << "Running the scheduler\n";
 }
 
