@@ -8,7 +8,8 @@ MP_OS::MP_OS() {
 
 }
 
-void MP_OS::mpthread_create() {
+void MP_OS::thread_create(void (*start_routine)()) {
+  start_routine();
 }
 
 void MP_OS::run() {

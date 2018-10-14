@@ -14,7 +14,7 @@ SRCFILES  := $(shell find $(SRCDIR) -type f -name '*.cpp' -not -path $(SRCDIR)/m
 APPFILES  := $(SRCFILES) $(SRCDIR)/main.cpp
 TESTFILES := $(shell find $(TESTDIR) -type f -name '*cpp')
 
-all: app test
+all: clean app test
 
 app: $(BINDIR)/$(APP)
 
