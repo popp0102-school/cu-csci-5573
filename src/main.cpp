@@ -1,8 +1,8 @@
-#include "scheduler.h"
+#include "mp.h"
 
 int main() {
-  Scheduler *mp_scheduler = new Scheduler();
-  mp_scheduler->Execute();
+  MP *modulus_prime = new MP();
+  modulus_prime->Execute();
 
   return 0;
 }
