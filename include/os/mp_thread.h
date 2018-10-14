@@ -5,7 +5,7 @@ class MP_Thread {
   private:
 
   public:
-    MP_Thread();
+    MP_Thread(void (*start_routine)());
 
 };
 
