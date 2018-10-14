@@ -1,11 +1,13 @@
 #include "mp_scheduler.h"
-#include <iostream>
-
-using namespace std;
 
 MP_Scheduler::MP_Scheduler() {
 }
 
 void MP_Scheduler::run() {
+
+}
+
+void MP_Scheduler::add_thread(MP_Thread *mp_thread) {
+  m_ready_queue.push(mp_thread);
 }
 
