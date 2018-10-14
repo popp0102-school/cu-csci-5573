@@ -10,11 +10,12 @@ void function2() {
 }
 
 int main() {
-  MP_OS *modulus_prime = new MP_OS();
-  modulus_prime->run();
+  MP_OS *mpos = new MP_OS();
 
-  function1();
-  function2();
+  mpos->thread_create(function1);
+  mpos->thread_create(function2);
+
+  mpos->run();
 
   return 0;
 }

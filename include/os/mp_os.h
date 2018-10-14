@@ -10,7 +10,7 @@ class MP_OS {
   public:
     MP_OS();
     void run();
-    void mpthread_create();
+    void thread_create(void (*start_routine)());
 };
 
 #endif
