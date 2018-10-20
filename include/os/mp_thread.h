@@ -8,7 +8,7 @@
 
 class MP_Thread {
   private:
-    ucontext_t context;
+    ucontext_t m_context;
 
   public:
     MP_Thread(void (*start_routine)());
