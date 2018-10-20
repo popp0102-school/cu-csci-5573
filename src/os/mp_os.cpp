@@ -1,6 +1,5 @@
 #include "mp_os.h"
 
-
 MP_OS::MP_OS() {
   m_main_thread = new MP_Thread();
   mp_scheduler = new MP_Scheduler(m_main_thread);

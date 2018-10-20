@@ -9,7 +9,6 @@ class MP_OS {
     MP_Scheduler *mp_scheduler;
     MP_Thread *m_main_thread;
 
-
   public:
     MP_OS();
     void run();
