@@ -1,13 +1,14 @@
 #include "mp_scheduler.h"
 
-MP_Scheduler::MP_Scheduler(MP_Thread *main_thread) {
+MP_Scheduler::MP_Scheduler(MP_Thread *main_thread, schedule algo) {
+  m_algo = algo;
   m_main_thread = main_thread;
 }
 
-void MP_Scheduler::run(schedule type) {
-  if (type == FCFS) {
+void MP_Scheduler::run() {
+  if (m_algo == FCFS) {
     fcfs();
-  } else if( type == ROUND_ROBIN ) {
+  } else if( m_algo == ROUND_ROBIN ) {
     round_robin();
   }
 }
