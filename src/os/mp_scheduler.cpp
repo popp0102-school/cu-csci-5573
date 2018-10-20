@@ -6,11 +6,17 @@ MP_Scheduler::MP_Scheduler(MP_Thread *main_thread) {
 
 void MP_Scheduler::run(schedule type) {
   if (type == FCFS) {
+    fcfs();
+  } else if( type == ROUND_ROBIN ) {
     round_robin();
   }
 }
 
 void MP_Scheduler::round_robin() {
+
+}
+
+void MP_Scheduler::fcfs() {
   while( !m_ready_queue.empty() ) {
     MP_Thread *current_thread = m_ready_queue.front();
     m_ready_queue.pop();
