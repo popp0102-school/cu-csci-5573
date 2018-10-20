@@ -5,14 +5,14 @@ void dummy_method2() {}
 
 TEST(MP_Scheduler, Run) {
   MP_Thread *main_thread = new MP_Thread();
-  MP_Scheduler *mp_scheduler = new MP_Scheduler();
+  MP_Scheduler *mp_scheduler = new MP_Scheduler(main_thread);
 
-  EXPECT_NO_THROW(mp_scheduler->run(main_thread));
+  EXPECT_NO_THROW(mp_scheduler->run());
 };
 
 TEST(MP_Scheduler, AddThread) {
-  MP_Scheduler *mp_scheduler = new MP_Scheduler();
   MP_Thread *main_thread = new MP_Thread();
+  MP_Scheduler *mp_scheduler = new MP_Scheduler(main_thread);
   MP_Thread *thread_1 = new MP_Thread(dummy_method2, main_thread);
   MP_Thread *thread_2 = new MP_Thread(dummy_method2, main_thread);
 
