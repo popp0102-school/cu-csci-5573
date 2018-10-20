@@ -11,6 +11,7 @@ class MP_Thread {
     ucontext_t m_context;
 
   public:
+    MP_Thread();
     MP_Thread(void (*start_routine)());
 
 };

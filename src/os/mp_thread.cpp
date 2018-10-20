@@ -1,5 +1,11 @@
 #include "mp_thread.h"
 
+
+MP_Thread::MP_Thread() {
+  getcontext(&m_context);
+}
+
+
 MP_Thread::MP_Thread(void (*start_routine)()) {
   getcontext(&m_context);
 
