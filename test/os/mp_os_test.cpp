@@ -15,3 +15,4 @@ TEST(MP_OS, mpthread_create) {
 
   EXPECT_NO_THROW(modulus_prime->thread_create(dummy_method));
 };
+

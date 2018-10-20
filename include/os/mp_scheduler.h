@@ -17,5 +17,6 @@ class MP_Scheduler {
     MP_Thread *m_main_thread;
     void round_robin();
 };
+
 #endif
 
