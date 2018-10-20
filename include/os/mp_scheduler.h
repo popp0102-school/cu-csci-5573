@@ -10,7 +10,7 @@ class MP_Scheduler {
 
   public:
     MP_Scheduler();
-    void run();
+    void run(MP_Thread *);
     void add_thread(MP_Thread*);
 };
 

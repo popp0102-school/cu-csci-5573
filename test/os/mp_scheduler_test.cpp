@@ -4,9 +4,10 @@
 void dummy_method2() {}
 
 TEST(MP_Scheduler, Run) {
+  MP_Thread *main_thread = new MP_Thread();
   MP_Scheduler *mp_scheduler = new MP_Scheduler();
 
-  EXPECT_NO_THROW(mp_scheduler->run());
+  EXPECT_NO_THROW(mp_scheduler->run(main_thread));
 };
 
 TEST(MP_Scheduler, AddThread) {

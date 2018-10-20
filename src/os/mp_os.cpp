@@ -12,6 +12,6 @@ void MP_OS::thread_create(void (*start_routine)()) {
 }
 
 void MP_OS::run() {
-  mp_scheduler->run();
+  mp_scheduler->run(m_main_thread);
 }
 
