@@ -7,7 +7,7 @@ TESTDIR  := test
 CXX      := g++
 LINKER   := g++
 CXXFLAGS := -Wall -std=c++11 -g
-LDFLAGS  := -lgtest -lpthread
+LDFLAGS  := -lgtest -lpthread -lboost_system
 INCLUDES := -I ./include/*
 
 SRCFILES  := $(shell find $(SRCDIR) -type f -name '*.cpp' -not -path $(SRCDIR)/main.cpp)

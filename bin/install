@@ -18,6 +18,7 @@ function InstallLinux {
 
   sudo apt-get --yes install libgtest-dev
   sudo apt-get --yes install cmake
+  sudo apt-get install libboost-all-dev
   sudo cmake $(GTESTDIR)/CMakeLists.txt
   sudo make -C $(GTESTDIR)
   sudo cp $(GTESTDIR)/*.a /usr/lib
@@ -27,6 +28,8 @@ function InstallMac {
   echo "Installing for Mac OS"
 
   brew install cmake
+  brew install python
+  brew install boost --with-python
   git clone https://github.com/google/googletest
   mkdir -p googletest/build
   cmake googletest/CMakeLists.txt
