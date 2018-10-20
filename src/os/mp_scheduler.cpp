@@ -5,7 +5,7 @@ MP_Scheduler::MP_Scheduler(MP_Thread *main_thread) {
 }
 
 void MP_Scheduler::run(schedule type) {
-  if (type == ROUND_ROBIN) {
+  if (type == FCFS) {
     round_robin();
   }
 }

@@ -6,7 +6,7 @@
 
 class MP_Scheduler {
   public:
-    enum schedule { ROUND_ROBIN };
+    enum schedule { FCFS, ROUND_ROBIN };
     MP_Scheduler(MP_Thread *);
     void run(schedule);
     void add_thread(MP_Thread*);
