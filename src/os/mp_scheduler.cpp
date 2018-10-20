@@ -4,7 +4,13 @@ MP_Scheduler::MP_Scheduler(MP_Thread *main_thread) {
   m_main_thread = main_thread;
 }
 
-void MP_Scheduler::run() {
+void MP_Scheduler::run(schedule type) {
+  if (type == ROUND_ROBIN) {
+    round_robin();
+  }
+}
+
+void MP_Scheduler::round_robin() {
   while( !m_ready_queue.empty() ) {
     MP_Thread *current_thread = m_ready_queue.front();
     m_ready_queue.pop();
