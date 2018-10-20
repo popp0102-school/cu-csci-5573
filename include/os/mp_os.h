@@ -7,6 +7,7 @@
 class MP_OS {
   private:
     MP_Scheduler *mp_scheduler;
+    MP_Thread *m_main_thread;
 
 
   public:
