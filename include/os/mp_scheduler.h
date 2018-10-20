@@ -7,10 +7,12 @@
 class MP_Scheduler {
   private:
     std::queue<MP_Thread*> m_ready_queue;
+    void execute_thread(MP_Thread*);
+    MP_Thread *m_main_thread;
 
   public:
-    MP_Scheduler();
-    void run(MP_Thread *);
+    MP_Scheduler(MP_Thread *);
+    void run();
     void add_thread(MP_Thread*);
 };
 
