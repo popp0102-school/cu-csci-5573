@@ -10,7 +10,7 @@ class MP_OS {
     MP_Thread *m_main_thread;
 
   public:
-    MP_OS();
+    MP_OS(MP_Scheduler::schedule);
     void run();
     void thread_create(void (*start_routine)());
 };

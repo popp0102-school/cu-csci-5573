@@ -10,7 +10,7 @@ void function2() {
 }
 
 int main() {
-  MP_OS *mpos = new MP_OS();
+  MP_OS *mpos = new MP_OS(MP_Scheduler::FCFS);
 
   mpos->thread_create(function1);
   mpos->thread_create(function2);

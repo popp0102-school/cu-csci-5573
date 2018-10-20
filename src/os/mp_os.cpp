@@ -1,8 +1,8 @@
 #include "mp_os.h"
 
-MP_OS::MP_OS() {
+MP_OS::MP_OS(MP_Scheduler::schedule algo) {
   m_main_thread = new MP_Thread();
-  mp_scheduler = new MP_Scheduler(m_main_thread, MP_Scheduler::FCFS);
+  mp_scheduler = new MP_Scheduler(m_main_thread, algo);
 }
 
 void MP_OS::thread_create(void (*start_routine)()) {
