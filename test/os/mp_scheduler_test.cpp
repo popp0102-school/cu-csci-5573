@@ -7,7 +7,7 @@ TEST(MP_Scheduler, Run) {
   MP_Thread *main_thread = new MP_Thread();
   MP_Scheduler *mp_scheduler = new MP_Scheduler(main_thread);
 
-  EXPECT_NO_THROW(mp_scheduler->run(MP_Scheduler::ROUND_ROBIN));
+  EXPECT_NO_THROW(mp_scheduler->run(MP_Scheduler::FCFS));
 };
 
 TEST(MP_Scheduler, AddThread) {
