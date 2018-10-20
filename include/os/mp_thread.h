@@ -13,6 +13,7 @@ class MP_Thread {
   public:
     MP_Thread();
     MP_Thread(void (*start_routine)());
+    ucontext_t* get_context();
 
 };
 

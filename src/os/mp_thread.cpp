@@ -17,3 +17,7 @@ MP_Thread::MP_Thread(void (*start_routine)()) {
   makecontext(&m_context, start_routine, 0);
 }
 
+ucontext_t* MP_Thread::get_context() {
+  return &m_context;
+}
+
