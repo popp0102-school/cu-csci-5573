@@ -15,6 +15,7 @@ class MP_Scheduler {
     std::queue<MP_Thread*> m_ready_queue;
     void execute_thread(MP_Thread*);
     MP_Thread *m_main_thread;
+    void fcfs();
     void round_robin();
 };
 
