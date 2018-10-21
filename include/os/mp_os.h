@@ -2,7 +2,7 @@
 #define MP_OS_H
 
 #include "mp_scheduler.h"
-#include "mp_dispatcher.h"
+#include "mp_interrupter.h"
 #include "mp_thread.h"
 
 class MP_OS {
