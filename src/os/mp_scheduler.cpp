@@ -23,14 +23,13 @@ void MP_Scheduler::fcfs() {
   while( !m_ready_queue.empty() ) {
     MP_Thread *next_thread = m_ready_queue.front();
     m_ready_queue.pop();
-    std::cout << "POP POP\n";
 
     execute_thread(next_thread);
   }
 }
 
 void MP_Scheduler::dispatch() {
-    std::cout << "DISPATCH\n";
+  add_thread(m_running_thread);
   execute_thread(m_main_thread);
 }
 
