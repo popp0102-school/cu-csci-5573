@@ -11,35 +11,28 @@ void function2() {
 }
 
 void function3() {
+  int count = 0;
   while(1) {
+    count++;
     std::cout << "function 3 here\n";
-    usleep(100000);
   }
 }
 
 void function4() {
+  int count = 0;
   while(1) {
+    count++;
     std::cout << "function 4 here\n";
-    usleep(100000);
   }
 }
 
 int main() {
-  if (1) {
-    MP_OS *mpos = new MP_OS(MP_Scheduler::FCFS);
+  MP_OS *mpos = new MP_OS(MP_Scheduler::FCFS);
 
-    mpos->thread_create(function1);
-    mpos->thread_create(function2);
+  mpos->thread_create(function3);
+  mpos->thread_create(function4);
 
-    mpos->run();
-  } else {
-    MP_OS *mpos = new MP_OS(MP_Scheduler::FCFS);
-
-    mpos->thread_create(function3);
-    mpos->thread_create(function4);
-
-    mpos->run();
-  }
+  mpos->run();
 
   return 0;
 }
