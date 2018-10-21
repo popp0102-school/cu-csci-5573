@@ -11,6 +11,7 @@ class MP_Scheduler {
     void run();
     void add_thread(MP_Thread*);
     void dispatch();
+    bool needs_quantum();
 
   private:
     std::queue<MP_Thread*> m_ready_queue;
@@ -19,8 +20,7 @@ class MP_Scheduler {
     schedule m_algo;
 
     void execute_thread(MP_Thread*);
-    void fcfs();
-    void round_robin();
+    void cycle_queue();
 };
 
 #endif

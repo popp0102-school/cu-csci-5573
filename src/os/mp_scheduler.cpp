@@ -8,24 +8,26 @@ MP_Scheduler::MP_Scheduler(MP_Thread *main_thread, schedule algo) {
 }
 
 void MP_Scheduler::run() {
-  if (m_algo == FCFS) {
-    fcfs();
-  } else if( m_algo == ROUND_ROBIN ) {
-    round_robin();
+  if (m_algo == FCFS || m_algo == ROUND_ROBIN) {
+    cycle_queue();
   }
 }
 
-void MP_Scheduler::round_robin() {
-
-}
-
-void MP_Scheduler::fcfs() {
+void MP_Scheduler::cycle_queue() {
   while( !m_ready_queue.empty() ) {
     MP_Thread *next_thread = m_ready_queue.front();
     m_ready_queue.pop();
 
     execute_thread(next_thread);
   }
+}
+
+bool MP_Scheduler::needs_quantum() {
+ if( m_algo == ROUND_ROBIN ) {
+   return true;
+ }
+
+ return false;
 }
 
 void MP_Scheduler::dispatch() {
