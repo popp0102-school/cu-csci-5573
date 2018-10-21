@@ -14,7 +14,6 @@ void init_interrupter(MP_Scheduler *mp_sched) {
   act.sa_flags = 0;
   sigaction(SIGALRM, &act, &oact);
 
-
   // Start itimer
   it.it_interval.tv_sec = 1;
   it.it_interval.tv_usec = 50000;
