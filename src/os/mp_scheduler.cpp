@@ -19,10 +19,10 @@ void MP_Scheduler::round_robin() {
 
 void MP_Scheduler::fcfs() {
   while( !m_ready_queue.empty() ) {
-    MP_Thread *current_thread = m_ready_queue.front();
+    MP_Thread *next_thread = m_ready_queue.front();
     m_ready_queue.pop();
 
-    execute_thread(current_thread);
+    execute_thread(next_thread);
   }
 }
 
