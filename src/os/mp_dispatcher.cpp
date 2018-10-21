@@ -1,11 +1,11 @@
-#include "mp_interrupter.h"
+#include "mp_dispatcher.h"
 #include <iostream>
 
 MP_Scheduler *mp_scheduler;
 
 struct itimerval it;
 
-void init_interrupter(MP_Scheduler *mp_sched) {
+void init_dispatcher(MP_Scheduler *mp_sched) {
   mp_scheduler = mp_sched;
 
   struct sigaction act, oact;
@@ -14,14 +14,13 @@ void init_interrupter(MP_Scheduler *mp_sched) {
   act.sa_flags = 0;
   sigaction(SIGALRM, &act, &oact);
 
-  // Start itimer
   it.it_interval.tv_sec = 1;
   it.it_interval.tv_usec = 50000;
   it.it_value.tv_sec = 1;
   it.it_value.tv_usec = 100000;
 }
 
-void run_interrupter() {
+void run_dispatcher() {
   setitimer(ITIMER_REAL, &it, NULL);
 }
 

@@ -4,7 +4,6 @@ MP_Thread::MP_Thread() {
   getcontext(&m_context);
 }
 
-
 MP_Thread::MP_Thread(void (*start_routine)(), MP_Thread *main_thread) {
   getcontext(&m_context);
 
