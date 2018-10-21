@@ -21,7 +21,9 @@ void init_dispatcher(MP_Scheduler *mp_sched) {
 }
 
 void run_dispatcher() {
-  setitimer(ITIMER_REAL, &it, NULL);
+  if (mp_scheduler->needs_quantum()) {
+    setitimer(ITIMER_REAL, &it, NULL);
+  }
 }
 
 void context_switch(int i) {
