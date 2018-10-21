@@ -8,8 +8,8 @@
 #include<sys/time.h>
 #include "mp_scheduler.h"
 
-void init_dispatcher(MP_Scheduler *);
-void run_dispatcher();
+void init_interrupter(MP_Scheduler *);
+void run_interrupter();
 void context_switch(int i);
 
 #endif

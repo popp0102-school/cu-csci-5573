@@ -1,11 +1,11 @@
-#include "mp_dispatcher.h"
+#include "mp_interrupter.h"
 #include <iostream>
 
 MP_Scheduler *mp_scheduler;
 
 struct itimerval it;
 
-void init_dispatcher(MP_Scheduler *mp_sched) {
+void init_interrupter(MP_Scheduler *mp_sched) {
   mp_scheduler = mp_sched;
 
   struct sigaction act, oact;
@@ -23,7 +23,7 @@ void init_dispatcher(MP_Scheduler *mp_sched) {
   setitimer(ITIMER_REAL, &it, NULL);
 }
 
-void run_dispatcher() {
+void run_interrupter() {
 }
 
 void context_switch(int i) {
