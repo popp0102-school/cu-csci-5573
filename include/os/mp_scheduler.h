@@ -14,6 +14,7 @@ class MP_Scheduler {
   private:
     std::queue<MP_Thread*> m_ready_queue;
     MP_Thread *m_main_thread;
+    MP_Thread *m_running_thread;
     schedule m_algo;
 
     void execute_thread(MP_Thread*);
