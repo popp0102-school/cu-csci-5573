@@ -14,7 +14,9 @@ void function3() {
   int count = 0;
   while(1) {
     count++;
-    std::cout << "function 3 here\n";
+    if (count % 100000000 == 0 ) {
+      std::cout << "function 3 here\n";
+    }
   }
 }
 
@@ -22,7 +24,9 @@ void function4() {
   int count = 0;
   while(1) {
     count++;
-    std::cout << "function 4 here\n";
+    if (count % 100000000 == 0 ) {
+      std::cout << "function 4 here\n";
+    }
   }
 }
 
