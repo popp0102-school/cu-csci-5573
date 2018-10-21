@@ -12,6 +12,7 @@ void MP_OS::thread_create(void (*start_routine)()) {
 }
 
 void MP_OS::run() {
+  run_interrupter();
   mp_scheduler->run();
 }
 
