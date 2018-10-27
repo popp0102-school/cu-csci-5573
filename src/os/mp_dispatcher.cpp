@@ -1,33 +1,23 @@
 #include "mp_dispatcher.h"
 #include <iostream>
 
-MP_Scheduler *mp_scheduler;
-
-struct itimerval it;
-
-void init_dispatcher(MP_Scheduler *mp_sched) {
-  mp_scheduler = mp_sched;
-
-  struct sigaction act, oact;
-  act.sa_handler = context_switch;
-  sigemptyset(&act.sa_mask);
-  act.sa_flags = 0;
-  sigaction(SIGALRM, &act, &oact);
-
-  it.it_interval.tv_sec = 1;
-  it.it_interval.tv_usec = 50000;
-  it.it_value.tv_sec = 1;
-  it.it_value.tv_usec = 100000;
+MP_Dispatcher::MP_Dispatcher(MP_Thread *os_thread) {
+  m_os_thread      = os_thread;
+  m_running_thread = os_thread;
 }
 
-void run_dispatcher() {
-  if (mp_scheduler->needs_quantum()) {
-    setitimer(ITIMER_REAL, &it, NULL);
-  }
-}
-
-void context_switch(int i) {
+void MP_Dispatcher::context_switch() {
   std::cout << "CONTEXT SWITCH!\n";
-  mp_scheduler->dispatch();
+  execute_thread(m_os_thread);
+}
+
+void MP_Dispatcher::execute_thread(MP_Thread *on_deck_thread) {
+  MP_Thread *current_running = m_running_thread;
+  m_running_thread           = on_deck_thread;
+  swapcontext(current_running->get_context(), on_deck_thread->get_context());
+}
+
+MP_Thread* MP_Dispatcher::get_running_thread() {
+  return m_running_thread;
 }
 

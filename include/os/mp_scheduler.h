@@ -7,20 +7,16 @@
 class MP_Scheduler {
   public:
     enum schedule { FCFS, ROUND_ROBIN };
-    MP_Scheduler(MP_Thread *, schedule);
-    void run();
-    void add_thread(MP_Thread*);
-    void dispatch();
+    MP_Scheduler(schedule);
+
+    void add_ready(MP_Thread*);
     bool needs_quantum();
+    bool has_ready_threads();
+    MP_Thread* get_next_thread();
 
   private:
     std::queue<MP_Thread*> m_ready_queue;
-    MP_Thread *m_main_thread;
-    MP_Thread *m_running_thread;
     schedule m_algo;
-
-    void execute_thread(MP_Thread*);
-    void cycle_queue();
 };
 
 #endif
