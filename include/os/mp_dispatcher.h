@@ -22,6 +22,7 @@ class MP_Dispatcher {
     struct itimerval it;
 
     void init_timer();
+    void init_context_switch_handler();
 };
 
 #endif
