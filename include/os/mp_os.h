@@ -21,7 +21,7 @@ class MP_OS {
 
     void setup_intterupt_handler();
     void set_quantum();
-    void handle_interrupt();
+    void quantum_expired();
 
     static MP_OS* os;
     static void interrupt_handler(int i);

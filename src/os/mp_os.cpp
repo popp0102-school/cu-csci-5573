@@ -1,6 +1,7 @@
 #include <signal.h>
 #include <sys/time.h>
 #include "mp_os.h"
+#include <iostream>
 
 MP_OS* MP_OS::os = NULL;
 
@@ -49,13 +50,15 @@ void MP_OS::set_quantum() {
   }
 }
 
-void MP_OS::handle_interrupt() {
+void MP_OS::quantum_expired() {
   MP_Thread *running_thread = m_dispatcher->get_running_thread();
   m_scheduler->add_ready(running_thread);
   m_dispatcher->context_switch();
 }
 
 void MP_OS::interrupt_handler(int i) {
-  os->handle_interrupt();
+  if(i == SIGALRM) {
+    os->quantum_expired();
+  }
 }
 
