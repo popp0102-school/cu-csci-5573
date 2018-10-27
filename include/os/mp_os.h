@@ -18,8 +18,9 @@ class MP_OS {
     MP_Scheduler *m_scheduler;
     MP_Thread *m_os_thread;
     int m_quantum;
+    std::queue<MP_Thread*> m_user_threads;
 
-    void setup_intterupt_handler();
+    void setup_interrupt_handler();
     void set_quantum();
     void quantum_expired();
 

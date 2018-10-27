@@ -6,18 +6,19 @@
 MP_OS* MP_OS::os = NULL;
 
 MP_OS::MP_OS(MP_Scheduler::schedule algo, int usec_quantum) {
-  os           = this;
   m_os_thread  = new MP_Thread();
   m_scheduler  = new MP_Scheduler(algo);
   m_dispatcher = new MP_Dispatcher(m_os_thread);
   m_quantum    = usec_quantum;
+  os           = this;
 
-  setup_intterupt_handler();
+  setup_interrupt_handler();
 }
 
 void MP_OS::thread_create(void (*start_routine)()) {
   MP_Thread *thread = new MP_Thread(start_routine, m_os_thread);
   m_scheduler->add_ready(thread);
+  m_user_threads.push(thread);
 }
 
 void MP_OS::wait() {
@@ -29,7 +30,7 @@ void MP_OS::wait() {
   }
 }
 
-void MP_OS::setup_intterupt_handler() {
+void MP_OS::setup_interrupt_handler() {
   struct sigaction act, oact;
   act.sa_handler = interrupt_handler;
   sigemptyset(&act.sa_mask);
