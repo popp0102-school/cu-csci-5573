@@ -6,11 +6,11 @@
 MP_OS* MP_OS::os = NULL;
 
 MP_OS::MP_OS(MP_Scheduler::schedule algo, int usec_quantum) {
+  os           = this;
   m_os_thread  = new MP_Thread();
   m_scheduler  = new MP_Scheduler(algo);
   m_dispatcher = new MP_Dispatcher(m_os_thread);
   m_quantum    = usec_quantum;
-  os           = this;
 
   setup_intterupt_handler();
 }
