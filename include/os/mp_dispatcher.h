@@ -16,6 +16,7 @@ class MP_Dispatcher {
     MP_Dispatcher(MP_Scheduler*, MP_Thread*);
     void run();
     void context_switch();
+    void set_quantum();
 
   private:
     static MP_Dispatcher* dispatcher;
@@ -25,7 +26,6 @@ class MP_Dispatcher {
     MP_Scheduler *m_scheduler;
 
     void setup_intterupt_handler();
-    void set_quantum();
 
     void execute_thread(MP_Thread *on_deck_thread);
 };

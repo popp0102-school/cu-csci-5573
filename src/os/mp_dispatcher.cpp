@@ -13,8 +13,6 @@ MP_Dispatcher::MP_Dispatcher(MP_Scheduler *scheduler, MP_Thread *os_thread) {
 }
 
 void MP_Dispatcher::run() {
-  set_quantum();
-
   while( m_scheduler->has_ready_threads() ) {
     MP_Thread *next_thread = m_scheduler->get_next_thread();
     execute_thread(next_thread);
