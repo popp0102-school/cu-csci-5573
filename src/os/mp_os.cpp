@@ -13,7 +13,7 @@ void MP_OS::thread_create(void (*start_routine)()) {
   mp_scheduler->add_ready(thread);
 }
 
-void MP_OS::run() {
+void MP_OS::wait() {
   mp_dispatcher->set_quantum();
 
   mp_scheduler->run();

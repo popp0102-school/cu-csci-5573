@@ -15,7 +15,7 @@ class MP_OS {
 
   public:
     MP_OS(MP_Scheduler::schedule);
-    void run();
+    void wait();
     void thread_create(void (*start_routine)());
 };
 
