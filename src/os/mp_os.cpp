@@ -3,7 +3,7 @@
 MP_OS::MP_OS(MP_Scheduler::schedule algo) {
   m_os_thread   = new MP_Thread();
   mp_scheduler  = new MP_Scheduler(m_os_thread, algo);
-  mp_dispatcher = new MP_Dispatcher(mp_scheduler);
+  mp_dispatcher = new MP_Dispatcher(mp_scheduler, m_os_thread);
 }
 
 void MP_OS::thread_create(void (*start_routine)()) {
