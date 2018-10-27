@@ -14,8 +14,6 @@ void MP_OS::thread_create(void (*start_routine)()) {
 }
 
 void MP_OS::wait() {
-  mp_dispatcher->set_quantum();
-
   mp_dispatcher->run();
 }
 
