@@ -16,7 +16,7 @@ TEST(MP_Scheduler, AddThread) {
   MP_Thread *thread_1 = new MP_Thread(dummy_method2, main_thread);
   MP_Thread *thread_2 = new MP_Thread(dummy_method2, main_thread);
 
-  EXPECT_NO_THROW(mp_scheduler->add_thread(thread_1));
-  EXPECT_NO_THROW(mp_scheduler->add_thread(thread_2));
+  EXPECT_NO_THROW(mp_scheduler->add_ready(thread_1));
+  EXPECT_NO_THROW(mp_scheduler->add_ready(thread_2));
 };
 

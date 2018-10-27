@@ -9,7 +9,7 @@ class MP_Scheduler {
     enum schedule { FCFS, ROUND_ROBIN };
     MP_Scheduler(MP_Thread *, schedule);
     void run();
-    void add_thread(MP_Thread*);
+    void add_ready(MP_Thread*);
     void dispatch();
     bool needs_quantum();
 

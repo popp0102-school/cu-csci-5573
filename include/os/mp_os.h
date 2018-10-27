@@ -4,11 +4,13 @@
 #include "mp_scheduler.h"
 #include "mp_dispatcher.h"
 #include "mp_thread.h"
+#include <queue>
 
 class MP_OS {
   private:
     MP_Scheduler *mp_scheduler;
     MP_Thread *m_os_thread;
+    std::queue<MP_Thread*> m_created_threads;
 
   public:
     MP_OS(MP_Scheduler::schedule);

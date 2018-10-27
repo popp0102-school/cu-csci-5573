@@ -31,11 +31,11 @@ bool MP_Scheduler::needs_quantum() {
 }
 
 void MP_Scheduler::dispatch() {
-  add_thread(m_running_thread);
+  add_ready(m_running_thread);
   execute_thread(m_main_thread);
 }
 
-void MP_Scheduler::add_thread(MP_Thread *mp_thread) {
+void MP_Scheduler::add_ready(MP_Thread *mp_thread) {
   m_ready_queue.push(mp_thread);
 }
 
