@@ -4,10 +4,11 @@
 
 MP_OS* MP_OS::os = NULL;
 
-MP_OS::MP_OS(MP_Scheduler::schedule algo) {
+MP_OS::MP_OS(MP_Scheduler::schedule algo, int usec_quantum) {
   m_os_thread  = new MP_Thread();
   m_scheduler  = new MP_Scheduler(algo);
   m_dispatcher = new MP_Dispatcher(m_os_thread);
+  m_quantum    = usec_quantum;
   os           = this;
 
   setup_intterupt_handler();
@@ -39,10 +40,10 @@ void MP_OS::set_quantum() {
   if (m_scheduler->needs_quantum()) {
     struct itimerval timer;
 
-    timer.it_interval.tv_sec = 1;
-    timer.it_interval.tv_usec = 50000;
-    timer.it_value.tv_sec = 1;
-    timer.it_value.tv_usec = 100000;
+    timer.it_interval.tv_sec  = 0;
+    timer.it_interval.tv_usec = m_quantum;
+    timer.it_value.tv_sec     = 0;
+    timer.it_value.tv_usec    = m_quantum;
 
     setitimer(ITIMER_REAL, &timer, NULL);
   }

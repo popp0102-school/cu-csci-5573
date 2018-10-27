@@ -8,7 +8,7 @@
 
 class MP_OS {
   public:
-    MP_OS(MP_Scheduler::schedule);
+    MP_OS(MP_Scheduler::schedule, int);
 
     void thread_create(void (*start_routine)());
     void wait();
@@ -17,6 +17,7 @@ class MP_OS {
     MP_Dispatcher *m_dispatcher;
     MP_Scheduler *m_scheduler;
     MP_Thread *m_os_thread;
+    int m_quantum;
 
     void setup_intterupt_handler();
     void set_quantum();
