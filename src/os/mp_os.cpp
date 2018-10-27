@@ -32,7 +32,16 @@ void MP_OS::wait() {
 
     MP_Thread::MP_Status status = m_quantum_exp ? MP_Thread::FINISHED : MP_Thread::WAITING;
     next_thread->set_status(status);
+
+    handle_finished_threads();
   }
+}
+
+void MP_OS::handle_finished_threads() {
+  // TODO Memory Manager
+  // iterate over m_user_threads
+  // if any of them have a FINISHED status
+  //    deallocate them (via memory manager)
 }
 
 void MP_OS::setup_interrupt_handler() {
