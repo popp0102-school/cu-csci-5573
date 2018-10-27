@@ -3,24 +3,24 @@
 
 MP_Dispatcher* MP_Dispatcher::dispatcher = NULL;
 
-MP_Dispatcher::MP_Dispatcher(MP_Scheduler *mp_sched, MP_Thread *m_os_thread) {
-  this->m_os_thread = m_os_thread;
-  m_running_thread  = m_os_thread;
-  my_scheduler      = mp_sched;
-  dispatcher        = this;
+MP_Dispatcher::MP_Dispatcher(MP_Scheduler *scheduler, MP_Thread *os_thread) {
+  this->m_scheduler       = scheduler;
+  this->m_os_thread       = os_thread;
+  this->m_running_thread  = os_thread;
+  dispatcher              = this;
 
   init_context_switch_handler();
 }
 
 void MP_Dispatcher::run() {
-  while( my_scheduler->has_ready_threads() ) {
-    MP_Thread *next_thread = my_scheduler->get_next_thread();
+  while( m_scheduler->has_ready_threads() ) {
+    MP_Thread *next_thread = m_scheduler->get_next_thread();
     execute_thread(next_thread);
   }
 }
 
 void MP_Dispatcher::set_quantum() {
-  if (my_scheduler->needs_quantum()) {
+  if (m_scheduler->needs_quantum()) {
     init_timer();
     setitimer(ITIMER_REAL, &it, NULL);
   }
@@ -28,7 +28,7 @@ void MP_Dispatcher::set_quantum() {
 
 void MP_Dispatcher::context_switch() {
   std::cout << "CONTEXT SWITCH!\n";
-  my_scheduler->add_ready(m_running_thread);
+  m_scheduler->add_ready(m_running_thread);
   execute_thread(m_os_thread);
 }
 
