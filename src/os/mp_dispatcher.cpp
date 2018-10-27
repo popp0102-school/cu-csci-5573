@@ -3,9 +3,10 @@
 
 MP_Dispatcher* MP_Dispatcher::dispatcher = NULL;
 
-MP_Dispatcher::MP_Dispatcher(MP_Scheduler *mp_sched) {
-  my_scheduler = mp_sched;
-  dispatcher   = this;
+MP_Dispatcher::MP_Dispatcher(MP_Scheduler *mp_sched, MP_Thread *m_os_thread) {
+  this->m_os_thread = m_os_thread;
+  my_scheduler      = mp_sched;
+  dispatcher        = this;
 
   init_context_switch_handler();
 }
