@@ -5,14 +5,7 @@ MP_Dispatcher* MP_Dispatcher::dispatcher = NULL;
 
 MP_Dispatcher::MP_Dispatcher(MP_Scheduler *mp_sched) {
   my_scheduler = mp_sched;
-
-  // set up context switch handler
-  struct sigaction act, oact;
-  act.sa_handler = context_switch;
-  sigemptyset(&act.sa_mask);
-  act.sa_flags = 0;
-  sigaction(SIGALRM, &act, &oact);
-
+  init_context_switch_handler();
   dispatcher = this;
 }
 
@@ -26,6 +19,14 @@ void MP_Dispatcher::set_quantum() {
 void MP_Dispatcher::context_switch(int i) {
   std::cout << "CONTEXT SWITCH!\n";
   dispatcher->my_scheduler->dispatch();
+}
+
+void MP_Dispatcher::init_context_switch_handler() {
+  struct sigaction act, oact;
+  act.sa_handler = context_switch;
+  sigemptyset(&act.sa_mask);
+  act.sa_flags = 0;
+  sigaction(SIGALRM, &act, &oact);
 }
 
 void MP_Dispatcher::init_timer() {
