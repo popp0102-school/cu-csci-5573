@@ -2,6 +2,7 @@
 
 MP_Thread::MP_Thread() {
   getcontext(&m_context);
+  m_status = WAITING;
 }
 
 MP_Thread::MP_Thread(void (*start_routine)(), MP_Thread *main_thread) {
@@ -17,5 +18,17 @@ MP_Thread::MP_Thread(void (*start_routine)(), MP_Thread *main_thread) {
 
 ucontext_t* MP_Thread::get_context() {
   return &m_context;
+}
+
+MP_Thread::MP_Status MP_Thread::get_status() {
+  return m_status;
+}
+
+void MP_Thread::set_status(MP_Status status) {
+  m_status = status;
+}
+
+void MP_Thread::swap(MP_Thread* next_thread) {
+  swapcontext(this->get_context(), next_thread->get_context());
 }
 
