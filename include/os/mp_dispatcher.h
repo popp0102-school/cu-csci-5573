@@ -11,21 +11,25 @@
 
 class MP_Dispatcher {
   public:
-    static void context_switch(int i);
+    static void interrupt(int i);
+    void context_switch();
+    MP_Scheduler *my_scheduler;
 
     MP_Dispatcher(MP_Scheduler*, MP_Thread*);
     void set_quantum();
-
+    void run();
 
   private:
     MP_Thread* m_os_thread;
+    MP_Thread* m_running_thread;
 
     static MP_Dispatcher* dispatcher;
-    MP_Scheduler *my_scheduler;
     struct itimerval it;
 
     void init_timer();
     void init_context_switch_handler();
+
+    void execute_thread(MP_Thread *on_deck_thread);
 };
 
 #endif
