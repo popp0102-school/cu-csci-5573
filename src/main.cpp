@@ -30,7 +30,7 @@ void function4() {
 }
 
 int main() {
-  MP_OS *mpos = new MP_OS(MP_Scheduler::ROUND_ROBIN);
+  MP_OS *mpos = new MP_OS(MP_Scheduler::ROUND_ROBIN, 900000);
 
   mpos->thread_create(function3);
   mpos->thread_create(function4);
