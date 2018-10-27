@@ -29,8 +29,6 @@ void MP_Thread::set_status(MP_Status status) {
 }
 
 void MP_Thread::swap(MP_Thread* next_thread) {
-  next_thread->set_status(RUNNING);
-  m_status = WAITING;
   swapcontext(this->get_context(), next_thread->get_context());
 }
 
