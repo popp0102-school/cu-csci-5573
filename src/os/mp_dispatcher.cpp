@@ -1,12 +1,10 @@
 #include "mp_dispatcher.h"
 #include <iostream>
 
-MP_Scheduler *mp_scheduler;
+MP_Dispatcher* MP_Dispatcher::dispatcher = NULL;
 
-struct itimerval it;
-
-void MP_Dispatcher::init_dispatcher(MP_Scheduler *mp_sched) {
-  mp_scheduler = mp_sched;
+MP_Dispatcher::MP_Dispatcher(MP_Scheduler *mp_sched) {
+  my_scheduler = mp_sched;
 
   struct sigaction act, oact;
   act.sa_handler = context_switch;
@@ -18,16 +16,18 @@ void MP_Dispatcher::init_dispatcher(MP_Scheduler *mp_sched) {
   it.it_interval.tv_usec = 50000;
   it.it_value.tv_sec = 1;
   it.it_value.tv_usec = 100000;
+
+  dispatcher = this;
 }
 
 void MP_Dispatcher::run_dispatcher() {
-  if (mp_scheduler->needs_quantum()) {
+  if (my_scheduler->needs_quantum()) {
     setitimer(ITIMER_REAL, &it, NULL);
   }
 }
 
 void MP_Dispatcher::context_switch(int i) {
   std::cout << "CONTEXT SWITCH!\n";
-  mp_scheduler->dispatch();
+  dispatcher->my_scheduler->dispatch();
 }
 

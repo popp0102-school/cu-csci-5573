@@ -8,6 +8,7 @@
 
 class MP_OS {
   private:
+    MP_Dispatcher *mp_dispatcher;
     MP_Scheduler *mp_scheduler;
     MP_Thread *m_os_thread;
     std::queue<MP_Thread*> m_created;
