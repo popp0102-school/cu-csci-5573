@@ -1,5 +1,4 @@
 #include <signal.h>
-#include <sys/types.h>
 #include <sys/time.h>
 #include "mp_os.h"
 
