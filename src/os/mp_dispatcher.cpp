@@ -5,8 +5,9 @@ MP_Dispatcher* MP_Dispatcher::dispatcher = NULL;
 
 MP_Dispatcher::MP_Dispatcher(MP_Scheduler *mp_sched) {
   my_scheduler = mp_sched;
+  dispatcher   = this;
+
   init_context_switch_handler();
-  dispatcher = this;
 }
 
 void MP_Dispatcher::set_quantum() {
