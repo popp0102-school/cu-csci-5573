@@ -24,6 +24,7 @@ class MP_OS {
     void setup_interrupt_handler();
     void set_quantum();
     void quantum_expired();
+    void handle_finished_threads();
 
     static MP_OS* os;
     static void interrupt_handler(int i);
