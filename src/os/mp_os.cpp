@@ -9,11 +9,14 @@ MP_OS::MP_OS(MP_Scheduler::schedule algo) {
 
 void MP_OS::thread_create(void (*start_routine)()) {
   MP_Thread *thread = new MP_Thread(start_routine, m_os_thread);
+
+  m_created.push(thread);
   mp_scheduler->add_ready(thread);
 }
 
 void MP_OS::run() {
   run_dispatcher();
+
   mp_scheduler->run();
 }
 
