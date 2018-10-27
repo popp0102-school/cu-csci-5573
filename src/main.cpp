@@ -1,6 +1,5 @@
 #include "mp_os.h"
 #include <iostream>
-#include <unistd.h>
 
 void function1() {
   std::cout << "function 1 here\n";
