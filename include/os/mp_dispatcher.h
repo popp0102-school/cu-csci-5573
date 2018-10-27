@@ -21,9 +21,6 @@ class MP_Dispatcher {
 
     MP_Scheduler *my_scheduler;
     struct itimerval it;
-
-
-
 };
 
 #endif
