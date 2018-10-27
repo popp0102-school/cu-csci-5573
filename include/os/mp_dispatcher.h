@@ -13,7 +13,6 @@ class MP_Dispatcher {
   public:
     static void interrupt(int i);
     void context_switch();
-    MP_Scheduler *my_scheduler;
 
     MP_Dispatcher(MP_Scheduler*, MP_Thread*);
     void set_quantum();
@@ -22,6 +21,7 @@ class MP_Dispatcher {
   private:
     MP_Thread* m_os_thread;
     MP_Thread* m_running_thread;
+    MP_Scheduler *m_scheduler;
 
     static MP_Dispatcher* dispatcher;
     struct itimerval it;
