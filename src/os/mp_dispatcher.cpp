@@ -36,3 +36,4 @@ void MP_Dispatcher::init_timer() {
   it.it_value.tv_sec = 1;
   it.it_value.tv_usec = 100000;
 }
+
