@@ -36,7 +36,7 @@ int main() {
   mpos->thread_create(function3);
   mpos->thread_create(function4);
 
-  mpos->run();
+  mpos->wait();
 
   return 0;
 }
