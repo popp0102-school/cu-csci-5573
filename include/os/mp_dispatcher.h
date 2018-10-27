@@ -8,9 +8,12 @@
 #include<sys/time.h>
 #include "mp_scheduler.h"
 
-void init_dispatcher(MP_Scheduler *);
-void run_dispatcher();
-void context_switch(int i);
+class MP_Dispatcher {
+  public:
+    static void init_dispatcher(MP_Scheduler *);
+    static void run_dispatcher();
+    static void context_switch(int i);
+};
 
 #endif
 

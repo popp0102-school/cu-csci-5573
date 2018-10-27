@@ -5,7 +5,7 @@ MP_Scheduler *mp_scheduler;
 
 struct itimerval it;
 
-void init_dispatcher(MP_Scheduler *mp_sched) {
+void MP_Dispatcher::init_dispatcher(MP_Scheduler *mp_sched) {
   mp_scheduler = mp_sched;
 
   struct sigaction act, oact;
@@ -20,13 +20,13 @@ void init_dispatcher(MP_Scheduler *mp_sched) {
   it.it_value.tv_usec = 100000;
 }
 
-void run_dispatcher() {
+void MP_Dispatcher::run_dispatcher() {
   if (mp_scheduler->needs_quantum()) {
     setitimer(ITIMER_REAL, &it, NULL);
   }
 }
 
-void context_switch(int i) {
+void MP_Dispatcher::context_switch(int i) {
   std::cout << "CONTEXT SWITCH!\n";
   mp_scheduler->dispatch();
 }

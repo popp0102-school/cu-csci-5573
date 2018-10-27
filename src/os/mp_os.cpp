@@ -4,7 +4,7 @@ MP_OS::MP_OS(MP_Scheduler::schedule algo) {
   m_os_thread  = new MP_Thread();
   mp_scheduler = new MP_Scheduler(m_os_thread, algo);
 
-  init_dispatcher(mp_scheduler);
+  MP_Dispatcher::init_dispatcher(mp_scheduler);
 }
 
 void MP_OS::thread_create(void (*start_routine)()) {
@@ -15,7 +15,7 @@ void MP_OS::thread_create(void (*start_routine)()) {
 }
 
 void MP_OS::run() {
-  run_dispatcher();
+  MP_Dispatcher::run_dispatcher();
 
   mp_scheduler->run();
 }
