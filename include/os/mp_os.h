@@ -14,10 +14,9 @@ class MP_OS {
     void wait();
 
   private:
-    MP_Dispatcher *mp_dispatcher;
-    MP_Scheduler *mp_scheduler;
+    MP_Dispatcher *m_dispatcher;
+    MP_Scheduler *m_scheduler;
     MP_Thread *m_os_thread;
-    std::queue<MP_Thread*> m_created;
 
     void setup_intterupt_handler();
     void set_quantum();
