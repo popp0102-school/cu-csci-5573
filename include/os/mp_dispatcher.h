@@ -18,9 +18,10 @@ class MP_Dispatcher {
 
   private:
     static MP_Dispatcher* dispatcher;
-
     MP_Scheduler *my_scheduler;
     struct itimerval it;
+
+    void init_timer();
 };
 
 #endif
