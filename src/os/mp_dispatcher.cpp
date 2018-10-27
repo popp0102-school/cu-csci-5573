@@ -20,7 +20,7 @@ MP_Dispatcher::MP_Dispatcher(MP_Scheduler *mp_sched) {
   dispatcher = this;
 }
 
-void MP_Dispatcher::run_dispatcher() {
+void MP_Dispatcher::set_quantum() {
   if (my_scheduler->needs_quantum()) {
     setitimer(ITIMER_REAL, &it, NULL);
   }

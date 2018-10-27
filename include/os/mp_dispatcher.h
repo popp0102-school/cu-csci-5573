@@ -13,7 +13,7 @@ class MP_Dispatcher {
     static void context_switch(int i);
 
     MP_Dispatcher(MP_Scheduler *);
-    void run_dispatcher();
+    void set_quantum();
 
 
   private:
