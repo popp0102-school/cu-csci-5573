@@ -11,23 +11,14 @@
 
 class MP_Dispatcher {
   public:
-    static void interrupt_handler(int i);
+    MP_Dispatcher(MP_Thread*);
 
-    MP_Dispatcher(MP_Scheduler*, MP_Thread*);
-    void run();
-    void context_switch();
-    void set_quantum();
+    void context_switch(MP_Scheduler*);
+    void execute_thread(MP_Thread*);
 
   private:
-    static MP_Dispatcher* dispatcher;
-
     MP_Thread* m_os_thread;
     MP_Thread* m_running_thread;
-    MP_Scheduler *m_scheduler;
-
-    void setup_intterupt_handler();
-
-    void execute_thread(MP_Thread *on_deck_thread);
 };
 
 #endif
