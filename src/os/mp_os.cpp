@@ -1,7 +1,7 @@
 #include <signal.h>
-#include <sys/time.h>
-#include "mp_os.h"
 #include <iostream>
+
+#include "mp_os.h"
 
 MP_OS* MP_OS::os = NULL;
 
@@ -23,12 +23,13 @@ void MP_OS::thread_create(void (*start_routine)()) {
 }
 
 void MP_OS::wait() {
-  set_quantum();
-
   while (m_scheduler->has_ready_threads()) {
     MP_Thread *next_thread = m_scheduler->get_next_thread();
     next_thread->set_status(MP_Thread::RUNNING);
+
+    start_quantum_timer();
     m_dispatcher->execute_thread(next_thread);
+    stop_quantum_timer();
 
     MP_Thread::MP_Status status = m_quantum_exp ? MP_Thread::FINISHED : MP_Thread::WAITING;
     next_thread->set_status(status);
@@ -52,20 +53,28 @@ void MP_OS::setup_interrupt_handler() {
   sigaction(SIGALRM, &act, &oact);
 }
 
-void MP_OS::set_quantum() {
+void MP_OS::start_quantum_timer() {
+  set_quantum_timer(m_quantum);
+}
+
+void MP_OS::stop_quantum_timer() {
+  set_quantum_timer(0);
+}
+
+void MP_OS::set_quantum_timer(int time) {
   if (m_scheduler->needs_quantum()) {
-    struct itimerval timer;
 
-    timer.it_interval.tv_sec  = 0;
-    timer.it_interval.tv_usec = m_quantum;
-    timer.it_value.tv_sec     = 0;
-    timer.it_value.tv_usec    = m_quantum;
+    m_quantum_timer.it_interval.tv_sec  = 0;
+    m_quantum_timer.it_interval.tv_usec = time;
+    m_quantum_timer.it_value.tv_sec     = 0;
+    m_quantum_timer.it_value.tv_usec    = time;
 
-    setitimer(ITIMER_REAL, &timer, NULL);
+    setitimer(ITIMER_REAL, &m_quantum_timer, NULL);
   }
 }
 
 void MP_OS::quantum_expired() {
+  stop_quantum_timer();
   m_quantum_exp = true;
   MP_Thread *running_thread = m_dispatcher->get_running_thread();
   m_scheduler->add_ready(running_thread);
