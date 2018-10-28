@@ -1,4 +1,4 @@
-#include "mp_os.h"
+#include "modulus-prime.h"
 #include <iostream>
 
 void function1() {
@@ -30,12 +30,10 @@ void function4() {
 }
 
 int main() {
-  MP_OS *mpos = new MP_OS(MP_Scheduler::ROUND_ROBIN, 900000);
-
-  mpos->thread_create(function3);
-  mpos->thread_create(function4);
-
-  mpos->wait();
+  ModulusPrime::init(MP_Scheduler::ROUND_ROBIN, 900000);
+  ModulusPrime::add_thread(function3);
+  ModulusPrime::add_thread(function4);
+  ModulusPrime::wait();
 
   return 0;
 }
