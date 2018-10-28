@@ -39,5 +39,5 @@ install:
 clean:
 	rm -rf $(BINDIR)/$(NAME)* $(BINDIR)/$(TESTAPP)*
 
-.PHONY: clean
+.PHONY: install clean
 
