@@ -30,10 +30,10 @@ void function4() {
 }
 
 int main() {
-  ModulusPrime::init(MP_Scheduler::ROUND_ROBIN, 900000);
-  ModulusPrime::add_thread(function3);
-  ModulusPrime::add_thread(function4);
-  ModulusPrime::wait();
+  mp_init(MP_Scheduler::ROUND_ROBIN, 900000);
+  mp_add_thread(function3);
+  mp_add_thread(function4);
+  mp_wait();
 
   return 0;
 }
