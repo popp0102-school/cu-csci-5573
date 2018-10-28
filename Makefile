@@ -5,6 +5,7 @@ TESTAPP  := runTests
 
 BINDIR   := bin
 SRCDIR   := src
+PRGMDIR  := src/programs
 TESTDIR  := test
 
 CXX      := g++
@@ -13,9 +14,9 @@ CXXFLAGS := -Wall -std=c++11 -g
 LDFLAGS  := -lgtest -lpthread -lboost_system
 INCLUDES := -I ./include/os -I include/lib
 
-SRCFILES  := $(shell find $(SRCDIR) -type f -name '*.cpp' -not -path "$(SRCDIR)/programs/main-*")
-APP1FILES := $(SRCFILES) $(SRCDIR)/programs/main-1.cpp
-APP2FILES := $(SRCFILES) $(SRCDIR)/programs/main-2.cpp
+MAIN1     := $(PRGMDIR)/main-1.cpp
+MAIN2     := $(PRGMDIR)/main-2.cpp
+SRCFILES  := $(shell find $(SRCDIR) -type f -name '*.cpp' -not -path "$(PRGMDIR)/*")
 TESTFILES := $(shell find $(TESTDIR) -type f -name '*cpp')
 
 all: clean app1 app2 test
@@ -25,10 +26,10 @@ app2: $(BINDIR)/$(APP2)
 test: $(BINDIR)/$(TESTAPP)
 
 $(BINDIR)/$(APP1):
-	$(CXX) $(CXXFLAGS) $(INCLUDES) $(APP1FILES) -o $@ $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $(SRCFILES) $(MAIN1) -o $@ $(LDFLAGS)
 
 $(BINDIR)/$(APP2):
-	$(CXX) $(CXXFLAGS) $(INCLUDES) $(APP2FILES) -o $@ $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $(SRCFILES) $(MAIN2) -o $@ $(LDFLAGS)
 
 $(BINDIR)/$(TESTAPP):
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $(SRCFILES) $(TESTFILES) -o $@ $(LDFLAGS)
