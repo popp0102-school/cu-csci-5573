@@ -9,7 +9,6 @@ PRGMDIR  := src/programs
 TESTDIR  := test
 
 CXX      := g++
-LINKER   := g++
 CXXFLAGS := -Wall -std=c++11 -g
 LDFLAGS  := -lgtest -lpthread -lboost_system
 INCLUDES := -I ./include/os -I include/lib
