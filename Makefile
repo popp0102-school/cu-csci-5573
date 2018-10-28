@@ -8,7 +8,7 @@ CXX      := g++
 LINKER   := g++
 CXXFLAGS := -Wall -std=c++11 -g
 LDFLAGS  := -lgtest -lpthread -lboost_system
-INCLUDES := -I ./include/*
+INCLUDES := -I ./include/os -I include/lib
 
 SRCFILES  := $(shell find $(SRCDIR) -type f -name '*.cpp' -not -path $(SRCDIR)/main.cpp)
 APPFILES  := $(SRCFILES) $(SRCDIR)/main.cpp
