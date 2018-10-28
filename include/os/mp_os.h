@@ -1,10 +1,12 @@
 #ifndef MP_OS_H
 #define MP_OS_H
 
+#include <queue>
+#include <sys/time.h>
+
 #include "mp_scheduler.h"
 #include "mp_dispatcher.h"
 #include "mp_thread.h"
-#include <queue>
 
 class MP_OS {
   public:
@@ -19,10 +21,13 @@ class MP_OS {
     MP_Thread *m_os_thread;
     int m_quantum;
     bool m_quantum_exp;
+    struct itimerval m_quantum_timer;
     std::queue<MP_Thread*> m_user_threads;
 
     void setup_interrupt_handler();
-    void set_quantum();
+    void start_quantum_timer();
+    void stop_quantum_timer();
+    void set_quantum_timer(int);
     void quantum_expired();
     void handle_finished_threads();
 
