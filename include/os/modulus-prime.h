@@ -3,15 +3,9 @@
 
 #include "mp_os.h"
 
-class ModulusPrime {
-  public:
-    static void init(MP_Scheduler::schedule, int);
-    static void add_thread(void (*thread_routine)());
-    static void wait();
-
-  private:
-    static MP_OS *mp_os;
-};
+void mp_init(MP_Scheduler::schedule, int);
+void mp_add_thread(void (*thread_routine)());
+void mp_wait();
 
 #endif
 
