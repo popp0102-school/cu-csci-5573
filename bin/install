@@ -14,7 +14,7 @@ function Main {
 function InstallLinux {
   echo "Installing for Linux OS"
 
-  GTESTDIR=/usr/src/test
+  GTESTDIR=/usr/src/gtest
 
   sudo apt-get --yes install libgtest-dev
   sudo apt-get --yes install cmake
