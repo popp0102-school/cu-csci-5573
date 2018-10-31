@@ -19,9 +19,9 @@ function InstallLinux {
   sudo apt-get --yes install libgtest-dev
   sudo apt-get --yes install cmake
   sudo apt-get install libboost-all-dev
-  sudo cmake $(GTESTDIR)/CMakeLists.txt
-  sudo make -C $(GTESTDIR)
-  sudo cp $(GTESTDIR)/*.a /usr/lib
+  sudo cmake $GTESTDIR/CMakeLists.txt
+  sudo make -C $GTESTDIR
+  sudo cp $GTESTDIR/*.a /usr/lib
 }
 
 function InstallMac {
