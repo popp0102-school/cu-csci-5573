@@ -5,31 +5,33 @@
 
 MP_OS* MP_OS::os = NULL;
 
-MP_OS::MP_OS(MP_Scheduler::schedule algo, int usec_quantum, string fileName) {
+MP_OS::MP_OS(MP_Scheduler::schedule algo, int usec_quantum, std::string fileName) {
   os            = this;
   m_os_thread   = new MP_Thread();
   m_scheduler   = new MP_Scheduler(algo);
   m_dispatcher  = new MP_Dispatcher(m_os_thread);
   m_quantum     = usec_quantum;
   m_quantum_exp = false;
-  this.mp_logger = new MP_Logger(m_os_thread, fileName);
+  this->mp_logger = new MP_Logger(m_os_thread, fileName);
 
   setup_interrupt_handler();
 }
 
-void MP_OS::thread_create(void (*start_routine)(), string label) {
+void MP_OS::thread_create(void (*start_routine)(), std::string label) {
   MP_Thread *thread = new MP_Thread(start_routine, m_os_thread, label);
   m_scheduler->add_ready(thread);
   m_user_threads.push(thread);
 }
 
 void MP_OS::wait() {
-	try{
+try{
 		
 	
-  while (m_scheduler->has_ready_threads()) {
+  while (m_scheduler->has_ready_threads()) 
+  {
+    throw std::exception();
     MP_Thread *next_thread = m_scheduler->get_next_thread();
-	mp_logger->log<MP_Thread>(*next_thread);
+    mp_logger->log<MP_Thread>(*next_thread);
     next_thread->set_status(MP_Thread::RUNNING);
 
     start_quantum_timer();
@@ -41,8 +43,12 @@ void MP_OS::wait() {
 
     handle_finished_threads();
   }
-}catch(exception& e){
+}catch(std::exception& e)
+{
+	MemoryDumper* mpDump = new MemoryDumper();
 	//log memeory and stacktrace information
+	mp_logger->log<std::string>(GetStackTrace());
+	mp_logger->log<long long>(mpDump->GetCurrentVirtualMemory());
 
 }
 }
