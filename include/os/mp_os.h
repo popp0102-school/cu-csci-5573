@@ -8,13 +8,15 @@
 #include "mp_scheduler.h"
 #include "mp_dispatcher.h"
 #include "mp_thread.h"
-#include "MP_Logger.h"
-
+#include "mp_logger.h"
+#include <string>
+#include "memorydumper.h"
+#include "mpStackTrace.h"
 class MP_OS {
   public:
-    MP_OS(MP_Scheduler::schedule, int, string);
+    MP_OS(MP_Scheduler::schedule, int, std::string);
 
-    void thread_create(void (*start_routine)());
+    void thread_create(void (*start_routine)(), std::string label);
     void wait();
 
   private:

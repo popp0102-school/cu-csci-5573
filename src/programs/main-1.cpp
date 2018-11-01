@@ -11,8 +11,8 @@ void function2() {
 
 int main() {
   mp_init(MP_Scheduler::FCFS, 0);
-  mp_add_thread(function1);
-  mp_add_thread(function2);
+  mp_add_thread(function1,"1");
+  mp_add_thread(function2,"2");
   mp_wait();
 
   return 0;

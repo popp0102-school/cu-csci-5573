@@ -5,18 +5,19 @@
 #include <stdlib.h>
 #include <execinfo.h>
 #include <cxxabi.h>
+#include <string>
 
-inline void GetStackTrace(FILE *out=stderr, unsigned int maxFrames=63)
+inline std::string GetStackTrace(FILE *out=stderr, unsigned int maxFrames=63)
 {
 
 	fprintf(out, "stack trace:\n");
 	void *addrlist[maxFrames + 1];
 	int addrlen = backtrace(addrlist, sizeof(addrlist) / sizeof(void*));
-
+        std::string returnVal = "\n";
 	if(addrlen == 0)
 	{
 		fprintf(out, "  <empty, error may be corrupt>\n");
-		return;
+		return returnVal;
 	}
 
 	//Resolve addresses to string as filename(function+address)
@@ -64,20 +65,24 @@ inline void GetStackTrace(FILE *out=stderr, unsigned int maxFrames=63)
 	  	{
 				funcname = ret; //realloc(ed) string
 				fprintf(out, " %s : %s+%s\n", symbollist[i], funcname, beginOffset);
+				returnVal.append(symbollist[i]).append(" : ").append(funcname).append("+").append(beginOffset);
 	  	}
 	  	else
-			{
+		{
 				fprintf(out, " %s : %s()+%s\n", symbollist[i], beginName, beginOffset);
+				returnVal.append(symbollist[i]).append(" : ").append(beginName).append("()+").append(beginOffset);
 	  	}
 		}
 		else
 		{
 			//Demangling failed output func name as a c func with no args
 			fprintf(out, " %s\n", symbollist[i]);
+			returnVal.append(symbollist[i]).append("\n");
 		}
 	}
  free(funcname);
  free(symbollist);
+ return returnVal;
 }
 
 #endif
