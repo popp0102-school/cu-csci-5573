@@ -3,19 +3,22 @@
 
 #include <queue>
 #include <sys/time.h>
+#include<exception>
 
 #include "mp_scheduler.h"
 #include "mp_dispatcher.h"
 #include "mp_thread.h"
+#include "MP_Logger.h"
 
 class MP_OS {
   public:
-    MP_OS(MP_Scheduler::schedule, int);
+    MP_OS(MP_Scheduler::schedule, int, string);
 
     void thread_create(void (*start_routine)());
     void wait();
 
   private:
+	MP_Logger *mp_logger;
     MP_Dispatcher *m_dispatcher;
     MP_Scheduler *m_scheduler;
     MP_Thread *m_os_thread;
