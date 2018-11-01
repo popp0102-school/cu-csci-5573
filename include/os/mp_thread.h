@@ -11,15 +11,18 @@ class MP_Thread {
     enum MP_Status { RUNNING, WAITING, FINISHED };
 
     MP_Thread();
-    MP_Thread(void (*start_routine)(), MP_Thread *main_thread);
+    MP_Thread(void (*start_routine)(), MP_Thread *main_thread, string label);
     ucontext_t* get_context();
     MP_Status get_status();
     void set_status(MP_Status);
     void swap(MP_Thread*);
+	string getLabel();
+	friend ostream& operator<<(ostream& os, const MP_Thread& mp_thread);
 
   private:
     ucontext_t m_context;
     MP_Status m_status;
+	string label;
 };
 
 #endif
