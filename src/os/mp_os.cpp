@@ -25,11 +25,9 @@ void MP_OS::thread_create(void (*start_routine)(), std::string label) {
 
 void MP_OS::wait() {
 try{
-		
-	
-  while (m_scheduler->has_ready_threads()) 
+
+  while (m_scheduler->has_ready_threads())
   {
-    throw std::exception();
     MP_Thread *next_thread = m_scheduler->get_next_thread();
     mp_logger->log<MP_Thread>(*next_thread);
     next_thread->set_status(MP_Thread::RUNNING);
@@ -43,7 +41,8 @@ try{
 
     handle_finished_threads();
   }
-}catch(std::exception& e)
+}
+catch(std::exception& e)
 {
 	MemoryDumper* mpDump = new MemoryDumper();
 	//log memeory and stacktrace information
