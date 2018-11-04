@@ -1,6 +1,8 @@
 NAME     := modulusPrime
 APP1     := $(NAME)-1
 APP2     := $(NAME)-2
+APP3	 := $(NAME)-3
+APP4	 := $(NAME)-4
 TESTAPP  := runTests
 
 BINDIR   := bin
@@ -15,20 +17,30 @@ INCLUDES := -I ./include/os -I include/lib
 
 MAIN1     := $(PRGMDIR)/main-1.cpp
 MAIN2     := $(PRGMDIR)/main-2.cpp
+MAIN3	  := $(PRGMDIR)/main-3.cpp
+MAIN4	  := $(PRGMDIR)/main-4.cpp
 SRCFILES  := $(shell find $(SRCDIR) -type f -name '*.cpp' -not -path "$(PRGMDIR)/*")
 TESTFILES := $(shell find $(TESTDIR) -type f -name '*cpp')
 
-all: clean app1 app2 test
+all: clean app1 app2 app3 app4 test
 
 app1: $(BINDIR)/$(APP1)
 app2: $(BINDIR)/$(APP2)
+app3: $(BINDIR)/$(APP3)
+app4: $(BINDIR)/$(APP4)
 test: $(BINDIR)/$(TESTAPP)
 
 $(BINDIR)/$(APP1):
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $(SRCFILES) $(MAIN1) -o $@ $(LDFLAGS)
 
-$(BINDIR)/$(APP2):
+$(BINDIR)/$(APP2):	
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $(SRCFILES) $(MAIN2) -o $@ $(LDFLAGS)
+
+$(BINDIR)/$(APP3):
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $(SRCFILES) $(MAIN3) -o $@ $(LDFLAGS)
+
+$(BINDIR)/$(APP4):
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $(SRCFILES) $(MAIN4) -o $@ $(LDFLAGS)
 
 $(BINDIR)/$(TESTAPP):
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $(SRCFILES) $(TESTFILES) -o $@ $(LDFLAGS)
