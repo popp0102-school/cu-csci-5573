@@ -18,13 +18,12 @@ int x = 100000;
 void function1() {	
 	int count = 0;	
 //	while(x >=0)i
-        while(1)
-     {  
+        while(1) { 
 	count++;     
     	if(count % 100000000 == 0){
-        	cout << " Thread is inside function 1 where the goal is for x to count from 100000 down to 0, x  = " << x << endl;
+        	cout << " Thread is inside function 1 where the goal is for x to count from 100000 up to 1000000000, x  = " << x << endl;
        
-        		if( x == 0){
+        		if( x == 1000000000){
             		cout << "x got to 0! time to end the program" << endl;
        			 terminate();
         		}
@@ -32,7 +31,7 @@ void function1() {
         		{
           	        cout << "x still not at 0"  <<endl;
        			}
-		x--;
+		x++;
 	} 
       //  x--;
         
@@ -46,19 +45,8 @@ void function2(){
       while(1)
     { 
       count++;
-      if(count % 100000000 ==0){
-        cout << "Thread is inside function 2 where the goal is for x to count up from 10000 to 1000000000, x = " << x << endl;
-        
-        if(x==10){
-            cout << "x got to 10! time to terminate the program" << endl;
-            terminate();
-        }
-        else
-        {
-            cout << "x not still not at 10" << endl;
-        }
-
-	x++;
+      if(count % 10000000 == 0){
+	      x = 0;
       }
        // x++;
     }
