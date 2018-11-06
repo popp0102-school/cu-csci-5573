@@ -5,6 +5,13 @@ MP_Thread::MP_Thread() {
   m_status = WAITING;
 }
 
+MP_Thread::~MP_Thread(){
+
+  free(m_context.uc_stack.ss_sp);
+
+}
+
+
 MP_Thread::MP_Thread(void (*start_routine)(), MP_Thread *main_thread) {
   getcontext(&m_context);
 

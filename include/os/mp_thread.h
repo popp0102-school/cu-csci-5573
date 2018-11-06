@@ -10,7 +10,9 @@ class MP_Thread {
   public:
     enum MP_Status { RUNNING, WAITING, FINISHED };
 
+    
     MP_Thread();
+   ~ MP_Thread();
     MP_Thread(void (*start_routine)(), MP_Thread *main_thread);
     ucontext_t* get_context();
     MP_Status get_status();
