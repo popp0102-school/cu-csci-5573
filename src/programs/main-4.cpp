@@ -76,8 +76,8 @@ int main()
      */
     mp_init(MP_Scheduler::ROUND_ROBIN,900000);
 
-    mp_add_thread(function1);
-    mp_add_thread(function2);
+    mp_add_thread(function1, "A");
+    mp_add_thread(function2, "B");
     mp_wait();
    // MP_Thread t1 = new MP_Thread;
    // MP_Thread t2 = new MP_Thread;

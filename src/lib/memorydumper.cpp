@@ -1,24 +1,9 @@
 #include "memorydumper.h"
 
-//Constructors
-MemoryDumper::MemoryDumper()
-{
-  sysinfo(&memInfo);
-}
-
-MemoryDumper::MemoryDumper(const MemoryDumper& md)
-{
-  memInfo = md.memInfo;
-}
-
-MemoryDumper::~MemoryDumper()
-{
-
-}
-
 //Virtual Memory Gather
 long long MemoryDumper::GetCurrentVirtualMemory(void)
 {
+  sysinfo(&memInfo);
   long long virtualMemUsed = memInfo.totalram - memInfo.freeram;
   virtualMemUsed += memInfo.totalswap - memInfo.freeswap;
   virtualMemUsed *= memInfo.mem_unit;
@@ -27,6 +12,7 @@ long long MemoryDumper::GetCurrentVirtualMemory(void)
 
 long long MemoryDumper::GetTotalVirtualMemory(void)
 {
+  sysinfo(&memInfo);
   long long totalVirtualMem = memInfo.totalram;
   totalVirtualMem += memInfo.totalswap;
   totalVirtualMem *= memInfo.mem_unit;
@@ -36,24 +22,6 @@ long long MemoryDumper::GetTotalVirtualMemory(void)
 int MemoryDumper::GetVirtualMemoryFromProcess(void)
 {
   return GetFileInformationVirtual();
-}
-
-//Physical Memory Gather
-long long MemoryDumper::GetTotalPhysicalMemory(void)
-{
-  long long totalPhysMem = memInfo.totalram;
-  return totalPhysMem *= memInfo.mem_unit;
-}
-
-long long MemoryDumper::GetCurrentPhysicalMemory(void)
-{
-  long long physMemUsed = memInfo.totalram - memInfo.freeram;
-  return physMemUsed *= memInfo.mem_unit;
-}
-
-int MemoryDumper::GetPhysicalMemoryFromProcess(void)
-{
-  return GetFileInformationPhysical();
 }
 
 //CPU Information
@@ -131,19 +99,3 @@ int MemoryDumper::GetFileInformationVirtual()
   return result;
 }
 
-int MemoryDumper::GetFileInformationPhysical()
-{
-  std::FILE* file = std::fopen("/proc/self/status", "r");
-  int result = -1;
-  char line[128];
-  while(std::fgets(line, 128, file) != NULL)
-  {
-    if(std::strncmp(line, "VmRSS:", 6) == 0)
-    {
-      result = ParseLine(line);
-      break;
-    }
-  }
-  std::fclose(file);
-  return result;
-}

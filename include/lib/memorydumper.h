@@ -15,20 +15,10 @@
 class MemoryDumper
 {
   public:
-    //Constructors
-    MemoryDumper();
-    MemoryDumper(const MemoryDumper& md);
-    ~MemoryDumper();
-
     //Virtual Memory Gather
     long long GetCurrentVirtualMemory(void);
     long long GetTotalVirtualMemory(void);
     int GetVirtualMemoryFromProcess(void);
-
-    //Physical Memory Gather
-    long long GetTotalPhysicalMemory(void);
-    long long GetCurrentPhysicalMemory(void);
-    int GetPhysicalMemoryFromProcess(void);
 
     //CPU Information
     double GetCPUInfoFromProcess(void);
@@ -36,7 +26,6 @@ class MemoryDumper
   private:
     int ParseLine(char* line);
     int GetFileInformationVirtual();
-    int GetFileInformationPhysical();
     struct sysinfo memInfo;
 };
 #endif
