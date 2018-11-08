@@ -34,9 +34,9 @@ void function2(){
 
 
 int main(){
-    mp_init(MP_Scheduler::FCFS, 0);
-    mp_add_thread(function2, "A");
-    mp_add_thread(function1, "B");
+    mp_init(MP_Scheduler::FCFS, 0, "main-3LOG.txt");
+    mp_add_thread(function2, "main-3-2");
+    mp_add_thread(function1, "main-3-1");
     mp_wait();
 
 

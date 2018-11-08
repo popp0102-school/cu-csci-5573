@@ -8,12 +8,9 @@
 class MP_Logger	//template
 {
 	private:
-		MP_Thread *mp_thread;
 		std::string fileName;
 	public:
-		MP_Logger();
-		MP_Logger(MP_Thread *mp_thread, std::string fileName);
-		~MP_Logger();
+		MP_Logger(std::string fileName);
 		template<class T>
 		void log(T mp_obj);//wrote into template
 };

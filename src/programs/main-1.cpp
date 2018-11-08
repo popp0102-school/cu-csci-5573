@@ -10,9 +10,9 @@ void function2() {
 }
 
 int main() {
-  mp_init(MP_Scheduler::FCFS, 0);
-  mp_add_thread(function1,"1");
-  mp_add_thread(function2,"2");
+  mp_init(MP_Scheduler::FCFS, 0, "main-1LOG.txt");
+  mp_add_thread(function1,"main-1-1");
+  mp_add_thread(function2,"main-1-2");
   mp_wait();
 
   return 0;

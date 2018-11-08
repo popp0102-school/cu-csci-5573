@@ -12,7 +12,7 @@ MP_OS::MP_OS(MP_Scheduler::schedule algo, int usec_quantum, std::string fileName
   m_dispatcher  = new MP_Dispatcher(m_os_thread);
   m_quantum     = usec_quantum;
   m_quantum_exp = false;
-  this->mp_logger = new MP_Logger(m_os_thread, fileName);
+  this->mp_logger = new MP_Logger(fileName);
 
   setup_interrupt_handler();
 }
@@ -23,9 +23,10 @@ void MP_OS::thread_create(void (*start_routine)(), std::string label) {
   m_user_threads.push(thread);
 }
 
-void MP_OS::wait() {
-try{
-
+void MP_OS::wait()
+{
+try
+{
   while (m_scheduler->has_ready_threads())
   {
     MP_Thread *next_thread = m_scheduler->get_next_thread();
@@ -44,12 +45,25 @@ try{
 }
 catch(std::exception& e)
 {
-	MemoryDumper* mpDump = new MemoryDumper();
-	//log memeory and stacktrace information
-	mp_logger->log<std::string>(GetStackTrace());
-	mp_logger->log<long long>(mpDump->GetCurrentVirtualMemory());
-
+	LogStackTrace();
 }
+}
+
+void MP_OS::PrepareRecoveryFromSegFault()
+{
+	struct sigaction sa, osa;
+	sa.sa_handler = interrupt_handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags=0; //or set to SA_SIGINFO
+	sigaction(SIGSEGV, &sa, &osa);
+}
+
+void MP_OS::LogStackTrace()
+{
+        MemoryDumper* mpDump = new MemoryDumper();
+        //log memeory and stacktrace information
+        mp_logger->log<std::string>(GetStackTrace());
+        mp_logger->log<long long>(mpDump->GetCurrentVirtualMemory());
 }
 
 void MP_OS::handle_finished_threads() {
@@ -65,6 +79,8 @@ void MP_OS::setup_interrupt_handler() {
   sigemptyset(&act.sa_mask);
   act.sa_flags = 0;
   sigaction(SIGALRM, &act, &oact);
+
+  PrepareRecoveryFromSegFault();
 }
 
 void MP_OS::start_quantum_timer() {
@@ -96,8 +112,14 @@ void MP_OS::quantum_expired() {
 }
 
 void MP_OS::interrupt_handler(int i) {
-  if(i == SIGALRM) {
+  if(i == SIGALRM)
+  {
     os->quantum_expired();
+  }
+  else if(i == SIGSEGV)
+  {
+    os->LogStackTrace();
+    exit(0);
   }
 }
 
