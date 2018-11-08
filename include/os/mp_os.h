@@ -4,7 +4,6 @@
 #include <queue>
 #include <sys/time.h>
 #include<exception>
-
 #include "mp_scheduler.h"
 #include "mp_dispatcher.h"
 #include "mp_thread.h"
@@ -20,7 +19,7 @@ class MP_OS {
     void wait();
 
   private:
-	MP_Logger *mp_logger;
+    MP_Logger *mp_logger;
     MP_Dispatcher *m_dispatcher;
     MP_Scheduler *m_scheduler;
     MP_Thread *m_os_thread;
@@ -35,6 +34,8 @@ class MP_OS {
     void set_quantum_timer(int);
     void quantum_expired();
     void handle_finished_threads();
+    void LogStackTrace();
+    void PrepareRecoveryFromSegFault();
 
     static MP_OS* os;
     static void interrupt_handler(int i);
