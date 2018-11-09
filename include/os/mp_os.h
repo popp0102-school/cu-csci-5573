@@ -11,6 +11,8 @@
 #include <string>
 #include "memorydumper.h"
 #include "mpStackTrace.h"
+#include <sstream>
+#include <fstream>
 class MP_OS {
   public:
     MP_OS(MP_Scheduler::schedule, int, std::string);
@@ -27,7 +29,7 @@ class MP_OS {
     bool m_quantum_exp;
     struct itimerval m_quantum_timer;
     std::queue<MP_Thread*> m_user_threads;
-
+    std::string fileNameBackup;
     void setup_interrupt_handler();
     void start_quantum_timer();
     void stop_quantum_timer();
@@ -36,6 +38,8 @@ class MP_OS {
     void handle_finished_threads();
     void LogStackTrace();
     void PrepareRecoveryFromSegFault();
+    std::ifstream readFile();
+    void reSchedule();
 
     static MP_OS* os;
     static void interrupt_handler(int i);
