@@ -1,6 +1,6 @@
 #include <signal.h>
 #include <iostream>
-
+#include <map>
 #include "mp_os.h"
 
 MP_OS* MP_OS::os = NULL;
@@ -12,7 +12,8 @@ MP_OS::MP_OS(MP_Scheduler::schedule algo, int usec_quantum, std::string fileName
   m_dispatcher  = new MP_Dispatcher(m_os_thread);
   m_quantum     = usec_quantum;
   m_quantum_exp = false;
-  this->mp_logger = new MP_Logger(fileName);
+  fileNameBackup = fileName;
+this->mp_logger = new MP_Logger(fileName);
 
   setup_interrupt_handler();
 }
@@ -23,8 +24,46 @@ void MP_OS::thread_create(void (*start_routine)(), std::string label) {
   m_user_threads.push(thread);
 }
 
+std::ifstream MP_OS::readFile(){
+	std::ifstream infile(fileNameBackup);
+	return infile;
+}
+
+void MP_OS::reSchedule(){
+	std::ifstream file = readFile();
+	std::string line;
+	std::queue<MP_Thread*> copy = m_user_threads;
+	std::map<std::string, MP_Thread*> thread_map;
+	while(!copy.empty()){
+		MP_Thread *element = copy.front();
+		thread_map[element->getLabel()] = element;
+		copy.pop();
+	}
+
+	m_scheduler->clear_ready();
+	std::cout << "m_scheduler clear" << std::endl;
+	while(std::getline(file, line)){
+		std::istringstream iss(line);
+		std::string label;
+		if(!(iss >> label)){
+			std::cout << "ERROR READING IN LINE" << std::endl;
+			break;
+		}
+		std::cout << thread_map[label]->getLabel() << std::endl;
+		m_scheduler->add_ready(thread_map[label]);
+	}
+	thread_map.clear();
+}
 void MP_OS::wait()
 {
+
+int scheduleAlgo = m_scheduler->get_schedule_algo();
+if(scheduleAlgo == MP_Scheduler::RERUN_FCFS || scheduleAlgo == MP_Scheduler::RERUN_ROUND_ROBIN)
+{
+	std::cout << "RERUN BEGIN" << std::endl;
+	reSchedule();
+}
+
 try
 {
   while (m_scheduler->has_ready_threads())
