@@ -24,13 +24,9 @@ void MP_OS::thread_create(void (*start_routine)(), std::string label) {
   m_user_threads.push(thread);
 }
 
-std::ifstream MP_OS::readFile(){
-	std::ifstream infile(fileNameBackup);
-	return infile;
-}
-
-void MP_OS::reSchedule(){
-	std::ifstream file = readFile();
+void MP_OS::ReSchedule()
+{
+	std::ifstream file = mp_logger->ReadFile();
 	std::string line;
 	std::queue<MP_Thread*> copy = m_user_threads;
 	std::map<std::string, MP_Thread*> thread_map;
@@ -54,6 +50,7 @@ void MP_OS::reSchedule(){
 	}
 	thread_map.clear();
 }
+
 void MP_OS::wait()
 {
 
@@ -61,7 +58,7 @@ int scheduleAlgo = m_scheduler->get_schedule_algo();
 if(scheduleAlgo == MP_Scheduler::RERUN_FCFS || scheduleAlgo == MP_Scheduler::RERUN_ROUND_ROBIN)
 {
 	std::cout << "RERUN BEGIN" << std::endl;
-	reSchedule();
+	ReSchedule();
 }
 
 try
@@ -103,6 +100,8 @@ void MP_OS::LogStackTrace()
         //log memeory and stacktrace information
         mp_logger->log<std::string>(GetStackTrace());
         mp_logger->log<long long>(mpDump->GetCurrentVirtualMemory());
+        delete mpDump;
+        mpDump = NULL;
 }
 
 void MP_OS::handle_finished_threads() {
@@ -161,4 +160,3 @@ void MP_OS::interrupt_handler(int i) {
     exit(0);
   }
 }
-

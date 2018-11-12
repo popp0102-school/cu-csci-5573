@@ -21,16 +21,17 @@ TEST(MemoryDumper, GetTotalVirtualMemory)
 TEST(MemoryDumper, GetVirtualMemoryFromProcess)
 {
 	MemoryDumper *md = new MemoryDumper();
-	ASSERT_GE(md->GetVirtualMemoryFromProcess(), 1);
-	std::cout << md->GetVirtualMemoryFromProcess() << std::endl;
-	EXPECT_NO_THROW(md->GetVirtualMemoryFromProcess());
+	ASSERT_GE(md->GetVirtualMemoryFromThread(), 1);
+	std::cout << md->GetVirtualMemoryFromThread() << std::endl;
+	EXPECT_NO_THROW(md->GetVirtualMemoryFromThread());
 };
 
 TEST(MemoryDumperCPU, GetCPUInfoFromProcess)
 {
         MemoryDumper *md = new MemoryDumper();
 	unsigned long long test = 0ULL;
-	unsigned long long expect = md->GetCPUInfoFromProcess();
-        ASSERT_GE(expect, test);
-        EXPECT_NO_THROW(md->GetCPUInfoFromProcess());
+	unsigned long long expect = md->MemoryFromCPU();
+        std::cout << expect;
+	ASSERT_GE(expect, test);
+        EXPECT_NO_THROW(md->MemoryFromCPU());
 };

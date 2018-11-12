@@ -38,12 +38,10 @@ class MP_OS {
     void handle_finished_threads();
     void LogStackTrace();
     void PrepareRecoveryFromSegFault();
-    std::ifstream readFile();
-    void reSchedule();
+    void ReSchedule();
 
     static MP_OS* os;
     static void interrupt_handler(int i);
 };
 
 #endif
-

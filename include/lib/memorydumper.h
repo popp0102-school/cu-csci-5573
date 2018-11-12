@@ -18,10 +18,10 @@ class MemoryDumper
     //Virtual Memory Gather
     long long GetCurrentVirtualMemory(void);
     long long GetTotalVirtualMemory(void);
-    int GetVirtualMemoryFromProcess(void);
+    int GetVirtualMemoryFromThread(void);
 
     //CPU Information
-    double GetCPUInfoFromProcess(void);
+    double MemoryFromCPU(void);
 
   private:
     int ParseLine(char* line);
