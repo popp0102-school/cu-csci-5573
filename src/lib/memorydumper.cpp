@@ -19,13 +19,13 @@ long long MemoryDumper::GetTotalVirtualMemory(void)
   return totalVirtualMem;
 }
 
-int MemoryDumper::GetVirtualMemoryFromProcess(void)
+int MemoryDumper::GetVirtualMemoryFromThread(void)
 {
   return GetFileInformationVirtual();
 }
 
 //CPU Information
-double MemoryDumper::GetCPUInfoFromProcess(void)
+double MemoryDumper::MemoryFromCPU(void)
 {
   unsigned long long lastTotalUser=0ULL, lastTotalUserLow=0ULL, lastTotalSys=0ULL, lastTotalIdle=0ULL;
   double percent=0.0;
@@ -98,4 +98,3 @@ int MemoryDumper::GetFileInformationVirtual()
   std::fclose(file);
   return result;
 }
-

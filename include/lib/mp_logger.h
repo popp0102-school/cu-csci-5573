@@ -11,8 +11,11 @@ class MP_Logger	//template
 		std::string fileName;
 	public:
 		MP_Logger(std::string fileName);
+
 		template<class T>
 		void log(T mp_obj);//wrote into template
+
+		std::ifstream ReadFile();
 };
 
 template<class T>
@@ -22,7 +25,5 @@ void MP_Logger::log(T mp_obj)
         logFile.open(fileName, std::ios_base::app);
         logFile << mp_obj;
         logFile.close();
-
 }
-
 #endif
