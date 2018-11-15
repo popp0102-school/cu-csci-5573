@@ -86,7 +86,6 @@ try
     if(status == MP_Thread::FINISHED)
     {
 	std::string label = next_thread->getLabel();
-	std::cout<< label<<std::endl;
 	m_scheduler->RemoveThread(label);
     }	
 
@@ -145,8 +144,6 @@ void MP_OS::stop_quantum_timer() {
 
 void MP_OS::set_quantum_timer(int time) {
   if (m_scheduler->needs_quantum()) {
-    std::cout<<"has quantum set"<< std::endl;
-
     m_quantum_timer.it_interval.tv_sec  = 0;
     m_quantum_timer.it_interval.tv_usec = time;
     m_quantum_timer.it_value.tv_sec     = 0;
