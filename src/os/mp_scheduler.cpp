@@ -51,3 +51,18 @@ void MP_Scheduler::clear_ready()
 		m_ready_queue.pop();
 	}
 }
+
+void MP_Scheduler::RemoveThread(std::string label)
+{
+	std::queue<MP_Thread*> copy_m_ready_queue = m_ready_queue;
+	clear_ready();
+	while(!copy_m_ready_queue.empty())
+	{
+		MP_Thread *element = copy_m_ready_queue.front();
+		if(element->getLabel() != label)
+		{
+			m_ready_queue.push(element);
+		}
+		copy_m_ready_queue.pop();
+	}	
+}

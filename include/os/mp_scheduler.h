@@ -12,6 +12,7 @@ class MP_Scheduler {
     void add_ready(MP_Thread*);
     bool needs_quantum();
     bool has_ready_threads();
+    void RemoveThread(std::string);
     MP_Thread* get_next_thread();
     schedule get_schedule_algo();
     void clear_ready();

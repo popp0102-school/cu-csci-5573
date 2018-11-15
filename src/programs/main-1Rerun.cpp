@@ -1,7 +1,7 @@
 #include "modulus-prime.h"
 #include <iostream>
-
-/*void function1() {
+/*
+void function1() {
   std::cout << "function 1 here\n";
 }
 
@@ -18,6 +18,8 @@ int main() {
   return 0;
 }
 */
+
+
 void function3() {
   int count = 0;
   while(1) {
