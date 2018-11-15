@@ -45,6 +45,10 @@ void MP_OS::ReSchedule()
 			std::cout << "ERROR READING IN LINE" << std::endl;
 			break;
 		}
+		if(label == "")
+		{
+			break;
+		}
 		std::cout << thread_map[label]->getLabel() << std::endl;
 		m_scheduler->add_ready(thread_map[label]);
 	}
@@ -74,7 +78,17 @@ try
     stop_quantum_timer();
 
     MP_Thread::MP_Status status = m_quantum_exp ? MP_Thread::FINISHED : MP_Thread::WAITING;
+    if(scheduleAlgo == MP_Scheduler::RERUN_FCFS || scheduleAlgo == MP_Scheduler::FCFS)
+    {
+	status = MP_Thread::FINISHED;
+    }
     next_thread->set_status(status);
+    if(status == MP_Thread::FINISHED)
+    {
+	std::string label = next_thread->getLabel();
+	std::cout<< label<<std::endl;
+	m_scheduler->RemoveThread(label);
+    }	
 
     handle_finished_threads();
   }
@@ -131,6 +145,7 @@ void MP_OS::stop_quantum_timer() {
 
 void MP_OS::set_quantum_timer(int time) {
   if (m_scheduler->needs_quantum()) {
+    std::cout<<"has quantum set"<< std::endl;
 
     m_quantum_timer.it_interval.tv_sec  = 0;
     m_quantum_timer.it_interval.tv_usec = time;
