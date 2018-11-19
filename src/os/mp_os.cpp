@@ -174,7 +174,7 @@ void MP_OS::interrupt_handler(int i) {
   }
 }
 
-void* MP_OS::thread_allocate(int numbytes){
+void* MP_OS::thread_malloc(int numbytes){
   MP_Thread *currentThread = m_dispatcher->get_running_thread();
   return m_memory_manager->allocate(numbytes, currentThread);
 }
