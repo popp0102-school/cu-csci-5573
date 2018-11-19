@@ -2,8 +2,8 @@
 
 MP_OS *mp_os = NULL;
 
-void mp_init(MP_Scheduler::schedule algo, int usecs_quantum, std::string label) {
-  mp_os = new MP_OS(algo, usecs_quantum, label);
+void mp_init(MP_Scheduler::schedule algo, int usecs_quantum, std::string filename) {
+  mp_os = new MP_OS(algo, usecs_quantum, filename);
 }
 
 void mp_add_thread(void (*thread_routine)(), std::string label) {
