@@ -5,13 +5,13 @@
 
 MP_OS* MP_OS::os = NULL;
 
-MP_OS::MP_OS(MP_Scheduler::schedule algo, int usec_quantum, std::string fileName) {
+MP_OS::MP_OS(MP_Scheduler::schedule algo, int usec_quantum, std::string filename) {
   os               = this;
   m_os_thread      = new MP_Thread();
   m_scheduler      = new MP_Scheduler(algo);
   m_dispatcher     = new MP_Dispatcher(m_os_thread);
   m_memory_manager = new MP_MemoryManager();
-  m_logger         = new MP_Logger(fileName);
+  m_logger         = new MP_Logger(filename);
 
   m_quantum        = usec_quantum;
   m_quantum_exp    = algo == MP_Scheduler::ROUND_ROBIN ? false : true;
