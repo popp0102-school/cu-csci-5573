@@ -10,6 +10,7 @@ MP_OS::MP_OS(MP_Scheduler::schedule algo, int usec_quantum, std::string fileName
   m_os_thread   = new MP_Thread();
   m_scheduler   = new MP_Scheduler(algo);
   m_dispatcher  = new MP_Dispatcher(m_os_thread);
+  m_memory_manager =  new MP_MemoryManager();
   m_quantum     = usec_quantum;
   m_quantum_exp = false;
   fileNameBackup = fileName;
@@ -172,3 +173,9 @@ void MP_OS::interrupt_handler(int i) {
     exit(0);
   }
 }
+
+void* MP_OS::thread_allocate(int numbytes){
+  MP_Thread *currentThread = m_dispatcher->get_running_thread();
+  return m_memory_manager->allocate(numbytes, currentThread);
+}
+
