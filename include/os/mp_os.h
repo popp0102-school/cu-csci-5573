@@ -18,9 +18,9 @@ class MP_OS {
   public:
     MP_OS(MP_Scheduler::schedule, int, std::string);
 
-    void* thread_allocate(int numbytes);
     void thread_create(void (*start_routine)(), std::string label);
     void wait();
+    void* thread_malloc(int numbytes);
 
   private:
     MP_Logger *mp_logger;
