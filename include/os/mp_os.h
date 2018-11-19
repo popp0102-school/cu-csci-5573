@@ -21,6 +21,7 @@ class MP_OS {
     void thread_create(void (*start_routine)(), std::string label);
     void wait();
     void* thread_malloc(int numbytes);
+    void thread_free();
 
   private:
     MP_Logger *mp_logger;
