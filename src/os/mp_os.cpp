@@ -12,9 +12,9 @@ MP_OS::MP_OS(MP_Scheduler::schedule algo, int usec_quantum, std::string fileName
   m_dispatcher     = new MP_Dispatcher(m_os_thread);
   m_memory_manager = new MP_MemoryManager();
   m_logger         = new MP_Logger(fileName);
+
   m_quantum        = usec_quantum;
-  m_quantum_exp    = false;
-  fileNameBackup   = fileName;
+  m_quantum_exp    = algo == MP_Scheduler::ROUND_ROBIN ? false : true;
 
   setup_interrupt_handler();
 }
@@ -74,17 +74,8 @@ void MP_OS::wait() {
 
       MP_Thread::MP_Status status = m_quantum_exp ? MP_Thread::WAITING : MP_Thread::FINISHED;
 
-      if(scheduleAlgo == MP_Scheduler::RERUN_FCFS || scheduleAlgo == MP_Scheduler::FCFS) {
-        status = MP_Thread::FINISHED;
-      }
-
       next_thread->set_status(status);
-      if(status == MP_Thread::FINISHED) {
-        std::string label = next_thread->getLabel();
-        m_scheduler->RemoveThread(label);
-      }
-
-      handle_finished_threads();
+      handle_finished_threads(status, next_thread);
     }
   } catch(std::exception& e) {
     LogStackTrace();
@@ -107,11 +98,13 @@ void MP_OS::LogStackTrace() {
   mpDump = NULL;
 }
 
-void MP_OS::handle_finished_threads() {
-  // TODO Memory Manager
-  // iterate over m_user_threads
-  // if any of them have a FINISHED status
-  //    deallocate them (via memory manager)
+void MP_OS::handle_finished_threads(MP_Thread::MP_Status status, MP_Thread *thread) {
+  if(status != MP_Thread::FINISHED) {
+    return;
+  }
+
+  std::string label = thread->getLabel();
+  m_scheduler->RemoveThread(label);
 }
 
 void MP_OS::setup_interrupt_handler() {
