@@ -33,18 +33,20 @@ class MP_OS {
     bool m_quantum_exp;
     struct itimerval m_quantum_timer;
     std::queue<MP_Thread*> m_user_threads;
-    void setup_interrupt_handler();
+    void setup_interrupt_handlers();
+    void setup_context_switch_interrupt_handler();
     void start_quantum_timer();
     void stop_quantum_timer();
     void set_quantum_timer(int);
     void quantum_expired();
     void handle_finished_threads(MP_Thread::MP_Status, MP_Thread*);
-    void LogStackTrace();
-    void PrepareRecoveryFromSegFault();
+    void log_stacktrace();
+    void segfault_recovery();
     void ReSchedule();
 
     static MP_OS* os;
-    static void interrupt_handler(int i);
+    static void context_switch_interrupt_handler(int i);
+    static void exception_handlers(int);
 };
 
 #endif

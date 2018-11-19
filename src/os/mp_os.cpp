@@ -16,7 +16,7 @@ MP_OS::MP_OS(MP_Scheduler::schedule algo, int usec_quantum, std::string filename
   m_quantum        = usec_quantum;
   m_quantum_exp    = algo == MP_Scheduler::ROUND_ROBIN ? false : true;
 
-  setup_interrupt_handler();
+  setup_interrupt_handlers();
 }
 
 void MP_OS::thread_create(void (*start_routine)(), std::string label) {
@@ -78,19 +78,11 @@ void MP_OS::wait() {
       handle_finished_threads(status, next_thread);
     }
   } catch(std::exception& e) {
-    LogStackTrace();
+    log_stacktrace();
   }
 }
 
-void MP_OS::PrepareRecoveryFromSegFault() {
-  struct sigaction sa, osa;
-  sa.sa_handler = interrupt_handler;
-  sigemptyset(&sa.sa_mask);
-  sa.sa_flags=0; //or set to SA_SIGINFO
-  sigaction(SIGSEGV, &sa, &osa);
-}
-
-void MP_OS::LogStackTrace() {
+void MP_OS::log_stacktrace() {
   MemoryDumper* mpDump = new MemoryDumper();
   m_logger->log<std::string>(GetStackTrace());
   m_logger->log<long long>(mpDump->GetCurrentVirtualMemory());
@@ -105,16 +97,6 @@ void MP_OS::handle_finished_threads(MP_Thread::MP_Status status, MP_Thread *thre
 
   std::string label = thread->getLabel();
   m_scheduler->RemoveThread(label);
-}
-
-void MP_OS::setup_interrupt_handler() {
-  struct sigaction act, oact;
-  act.sa_handler = interrupt_handler;
-  sigemptyset(&act.sa_mask);
-  act.sa_flags = 0;
-  sigaction(SIGALRM, &act, &oact);
-
-  PrepareRecoveryFromSegFault();
 }
 
 void MP_OS::start_quantum_timer() {
@@ -144,15 +126,6 @@ void MP_OS::quantum_expired() {
   m_dispatcher->context_switch();
 }
 
-void MP_OS::interrupt_handler(int i) {
-  if(i == SIGALRM) {
-    os->quantum_expired();
-  } else if(i == SIGSEGV) {
-    os->LogStackTrace();
-    exit(0);
-  }
-}
-
 void* MP_OS::thread_malloc(int numbytes) {
   MP_Thread *currentThread = m_dispatcher->get_running_thread();
   return m_memory_manager->allocate(numbytes, currentThread);
@@ -161,5 +134,36 @@ void* MP_OS::thread_malloc(int numbytes) {
 void MP_OS::thread_free() {
   MP_Thread *currentThread = m_dispatcher->get_running_thread();
   return m_memory_manager->deallocate(currentThread);
+}
+
+void MP_OS::setup_interrupt_handlers() {
+  setup_context_switch_interrupt_handler();
+  segfault_recovery();
+}
+
+void MP_OS::setup_context_switch_interrupt_handler() {
+  struct sigaction act, oact;
+  act.sa_handler = context_switch_interrupt_handler;
+  sigemptyset(&act.sa_mask);
+  act.sa_flags = 0;
+  sigaction(SIGALRM, &act, &oact);
+}
+
+void MP_OS::segfault_recovery() {
+  struct sigaction sa, osa;
+  sa.sa_handler = exception_handlers;
+  sigemptyset(&sa.sa_mask);
+  sa.sa_flags = 0;
+  sigaction(SIGSEGV, &sa, &osa);
+}
+void MP_OS::context_switch_interrupt_handler(int i) {
+  os->quantum_expired();
+}
+
+void MP_OS::exception_handlers(int i ) {
+  if(i == SIGSEGV) {
+    os->log_stacktrace();
+    exit(0);
+  }
 }
 
