@@ -11,5 +11,3 @@ void* thread_malloc(int);
 
 #endif
 
-
-
