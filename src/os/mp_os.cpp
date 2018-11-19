@@ -6,15 +6,15 @@
 MP_OS* MP_OS::os = NULL;
 
 MP_OS::MP_OS(MP_Scheduler::schedule algo, int usec_quantum, std::string fileName) {
-  os            = this;
-  m_os_thread   = new MP_Thread();
-  m_scheduler   = new MP_Scheduler(algo);
-  m_dispatcher  = new MP_Dispatcher(m_os_thread);
-  m_memory_manager =  new MP_MemoryManager();
-  m_quantum     = usec_quantum;
-  m_quantum_exp = false;
-  fileNameBackup = fileName;
-this->mp_logger = new MP_Logger(fileName);
+  os               = this;
+  m_os_thread      = new MP_Thread();
+  m_scheduler      = new MP_Scheduler(algo);
+  m_dispatcher     = new MP_Dispatcher(m_os_thread);
+  m_memory_manager = new MP_MemoryManager();
+  m_logger         = new MP_Logger(fileName);
+  m_quantum        = usec_quantum;
+  m_quantum_exp    = false;
+  fileNameBackup   = fileName;
 
   setup_interrupt_handler();
 }
@@ -26,7 +26,7 @@ void MP_OS::thread_create(void (*start_routine)(), std::string label) {
 }
 
 void MP_OS::ReSchedule() {
-  std::ifstream file = mp_logger->ReadFile();
+  std::ifstream file = m_logger->ReadFile();
   std::string line;
   std::queue<MP_Thread*> copy = m_user_threads;
   std::map<std::string, MP_Thread*> thread_map;
@@ -57,8 +57,7 @@ void MP_OS::ReSchedule() {
 
 void MP_OS::wait() {
   int scheduleAlgo = m_scheduler->get_schedule_algo();
-  if(scheduleAlgo == MP_Scheduler::RERUN_FCFS || scheduleAlgo == MP_Scheduler::RERUN_ROUND_ROBIN)
-  {
+  if(scheduleAlgo == MP_Scheduler::RERUN_FCFS || scheduleAlgo == MP_Scheduler::RERUN_ROUND_ROBIN) {
     std::cout << "RERUN BEGIN" << std::endl;
     ReSchedule();
   }
@@ -66,17 +65,19 @@ void MP_OS::wait() {
   try {
     while (m_scheduler->has_ready_threads()) {
       MP_Thread *next_thread = m_scheduler->get_next_thread();
-      mp_logger->log<MP_Thread>(*next_thread);
+      m_logger->log<MP_Thread>(*next_thread);
       next_thread->set_status(MP_Thread::RUNNING);
 
       start_quantum_timer();
       m_dispatcher->execute_thread(next_thread);
       stop_quantum_timer();
 
-      MP_Thread::MP_Status status = m_quantum_exp ? MP_Thread::FINISHED : MP_Thread::WAITING;
+      MP_Thread::MP_Status status = m_quantum_exp ? MP_Thread::WAITING : MP_Thread::FINISHED;
+
       if(scheduleAlgo == MP_Scheduler::RERUN_FCFS || scheduleAlgo == MP_Scheduler::FCFS) {
         status = MP_Thread::FINISHED;
       }
+
       next_thread->set_status(status);
       if(status == MP_Thread::FINISHED) {
         std::string label = next_thread->getLabel();
@@ -100,8 +101,8 @@ void MP_OS::PrepareRecoveryFromSegFault() {
 
 void MP_OS::LogStackTrace() {
   MemoryDumper* mpDump = new MemoryDumper();
-  mp_logger->log<std::string>(GetStackTrace());
-  mp_logger->log<long long>(mpDump->GetCurrentVirtualMemory());
+  m_logger->log<std::string>(GetStackTrace());
+  m_logger->log<long long>(mpDump->GetCurrentVirtualMemory());
   delete mpDump;
   mpDump = NULL;
 }
