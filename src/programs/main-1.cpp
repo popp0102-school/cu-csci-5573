@@ -3,6 +3,13 @@
 
 void function1() {
   std::cout << "function 1 here\n";
+
+  int* mem = (int*) mp_malloc(1000);
+  std::cout << mem << std::endl;
+  mp_free();
+  std::cout << mem << std::endl;
+
+
 }
 
 void function2() {

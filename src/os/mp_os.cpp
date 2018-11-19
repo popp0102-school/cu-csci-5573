@@ -164,3 +164,8 @@ void* MP_OS::thread_malloc(int numbytes) {
   return m_memory_manager->allocate(numbytes, currentThread);
 }
 
+void MP_OS::thread_free() {
+  MP_Thread *currentThread = m_dispatcher->get_running_thread();
+  return m_memory_manager->deallocate(currentThread);
+}
+
