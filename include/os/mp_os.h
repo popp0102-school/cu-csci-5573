@@ -7,6 +7,7 @@
 #include "mp_scheduler.h"
 #include "mp_dispatcher.h"
 #include "mp_thread.h"
+#include "mp_memory_manager.h"
 #include "mp_logger.h"
 #include <string>
 #include "memorydumper.h"
@@ -19,12 +20,14 @@ class MP_OS {
 
     void thread_create(void (*start_routine)(), std::string label);
     void wait();
+    void* thread_malloc(int numbytes);
 
   private:
     MP_Logger *mp_logger;
     MP_Dispatcher *m_dispatcher;
     MP_Scheduler *m_scheduler;
     MP_Thread *m_os_thread;
+    MP_MemoryManager *m_memory_manager;
     int m_quantum;
     bool m_quantum_exp;
     struct itimerval m_quantum_timer;
@@ -45,3 +48,4 @@ class MP_OS {
 };
 
 #endif
+
