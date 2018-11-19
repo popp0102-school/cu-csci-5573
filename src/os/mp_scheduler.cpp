@@ -34,35 +34,29 @@ bool MP_Scheduler::needs_quantum() {
  return false;
 }
 
-void MP_Scheduler::add_ready(MP_Thread *thread)
-{
+void MP_Scheduler::add_ready(MP_Thread *thread) {
   m_ready_queue.push(thread);
 }
 
-MP_Scheduler::schedule MP_Scheduler::get_schedule_algo()
-{
-	return m_algo;
+MP_Scheduler::schedule MP_Scheduler::get_schedule_algo() {
+  return m_algo;
 }
 
-void MP_Scheduler::clear_ready()
-{
-	while(!m_ready_queue.empty())
-	{
-		m_ready_queue.pop();
-	}
+void MP_Scheduler::clear_ready() {
+  while(!m_ready_queue.empty()) {
+    m_ready_queue.pop();
+  }
 }
 
-void MP_Scheduler::RemoveThread(std::string label)
-{
-	std::queue<MP_Thread*> copy_m_ready_queue = m_ready_queue;
-	clear_ready();
-	while(!copy_m_ready_queue.empty())
-	{
-		MP_Thread *element = copy_m_ready_queue.front();
-		if(element->getLabel() != label)
-		{
-			m_ready_queue.push(element);
-		}
-		copy_m_ready_queue.pop();
-	}	
+void MP_Scheduler::RemoveThread(std::string label) {
+  std::queue<MP_Thread*> copy_m_ready_queue = m_ready_queue;
+  clear_ready();
+  while(!copy_m_ready_queue.empty()) {
+    MP_Thread *element = copy_m_ready_queue.front();
+    if(element->getLabel() != label) {
+      m_ready_queue.push(element);
+    }
+    copy_m_ready_queue.pop();
+  }
 }
+
