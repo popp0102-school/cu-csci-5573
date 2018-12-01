@@ -1,8 +1,9 @@
 #include "mp_scheduler.h"
 #include <iostream>
 
-MP_Scheduler::MP_Scheduler(schedule algo) {
-  m_algo = algo;
+MP_Scheduler::MP_Scheduler(schedule algo, int quantum) {
+  m_algo    = algo;
+  m_quantum = quantum;
 }
 
 bool MP_Scheduler::has_ready_threads() {
@@ -35,6 +36,7 @@ bool MP_Scheduler::needs_quantum() {
 }
 
 void MP_Scheduler::add_ready(MP_Thread *thread) {
+  thread->set_quantum(m_quantum);
   m_ready_queue.push(thread);
 }
 

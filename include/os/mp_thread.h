@@ -16,10 +16,15 @@ class MP_Thread {
     MP_Thread();
     MP_Thread(void (*start_routine)(), MP_Thread *main_thread, string label);
 
+    int get_quantum();
+    void set_quantum(int quantum);
+
     ucontext_t* get_context();
+    void swap(MP_Thread*);
+
     MP_Status get_status();
     void set_status(MP_Status);
-    void swap(MP_Thread*);
+
     string getLabel();
     friend ostream& operator<<(ostream& os, const MP_Thread& mp_thread);
 
