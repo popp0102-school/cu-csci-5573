@@ -3,7 +3,7 @@
 
 MP_Scheduler::MP_Scheduler(schedule algo, int quantum) {
   m_algo    = algo;
-  m_quantum = quantum;
+  m_quantum = algo == ROUND_ROBIN ? quantum : -1;
 }
 
 bool MP_Scheduler::has_ready_threads() {
