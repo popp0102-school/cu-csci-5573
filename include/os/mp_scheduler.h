@@ -2,12 +2,15 @@
 #define MP_SCHEDULER_H
 
 #include "mp_thread.h"
+#include "mp_logger.h"
 #include <queue>
+
+using namespace std;
 
 class MP_Scheduler {
   public:
     enum schedule { FCFS, ROUND_ROBIN, RERUN_FCFS, RERUN_ROUND_ROBIN };
-    MP_Scheduler(schedule, int);
+    MP_Scheduler(schedule, int, string);
 
     void add_ready(MP_Thread*);
     bool needs_quantum();
@@ -21,6 +24,7 @@ class MP_Scheduler {
     std::queue<MP_Thread*> m_ready_queue;
     schedule m_algo;
     int m_quantum;
+    MP_Logger *m_logger;
 };
 
 #endif

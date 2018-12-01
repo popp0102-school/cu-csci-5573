@@ -1,9 +1,9 @@
 #include "mp_scheduler.h"
-#include <iostream>
 
-MP_Scheduler::MP_Scheduler(schedule algo, int quantum) {
+MP_Scheduler::MP_Scheduler(schedule algo, int quantum, string filename) {
   m_algo    = algo;
   m_quantum = algo == ROUND_ROBIN ? quantum : -1;
+  m_logger  = new MP_Logger(filename);
 }
 
 bool MP_Scheduler::has_ready_threads() {
@@ -24,6 +24,7 @@ MP_Thread* MP_Scheduler::get_next_thread() {
     }
   }
 
+  m_logger->log<MP_Thread>(*next_thread);
   return next_thread;
 }
 
@@ -50,8 +51,8 @@ void MP_Scheduler::clear_ready() {
   }
 }
 
-void MP_Scheduler::RemoveThread(std::string label) {
-  std::queue<MP_Thread*> copy_m_ready_queue = m_ready_queue;
+void MP_Scheduler::RemoveThread(string label) {
+  queue<MP_Thread*> copy_m_ready_queue = m_ready_queue;
   clear_ready();
   while(!copy_m_ready_queue.empty()) {
     MP_Thread *element = copy_m_ready_queue.front();

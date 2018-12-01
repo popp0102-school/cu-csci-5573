@@ -8,7 +8,7 @@ MP_OS* MP_OS::os = NULL;
 MP_OS::MP_OS(MP_Scheduler::schedule algo, int usec_quantum, std::string filename) {
   os               = this;
   m_os_thread      = new MP_Thread();
-  m_scheduler      = new MP_Scheduler(algo, usec_quantum);
+  m_scheduler      = new MP_Scheduler(algo, usec_quantum, filename);
   m_dispatcher     = new MP_Dispatcher(m_os_thread);
   m_memory_manager = new MP_MemoryManager();
   m_logger         = new MP_Logger(filename);
@@ -33,7 +33,6 @@ void MP_OS::wait() {
   try {
     while (m_scheduler->has_ready_threads()) {
       MP_Thread *next_thread = m_scheduler->get_next_thread();
-      m_logger->log<MP_Thread>(*next_thread);
       next_thread->set_status(MP_Thread::RUNNING);
 
       start_quantum_timer(next_thread->get_quantum());
