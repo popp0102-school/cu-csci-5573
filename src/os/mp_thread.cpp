@@ -2,18 +2,19 @@
 
 MP_Thread::MP_Thread() {
   getcontext(&m_context);
+
   m_status = WAITING;
-  label = "default";
+  m_label  = "default";
 }
 
-MP_Thread::MP_Thread(void (*start_routine)(), MP_Thread *main_thread, std::string label) {
-  this->label = label;
+MP_Thread::MP_Thread(void (*start_routine)(), MP_Thread *main_thread, string label) {
   getcontext(&m_context);
 
   m_context.uc_link           = main_thread->get_context();
   m_context.uc_stack.ss_sp    = malloc(STACK_SIZE);
   m_context.uc_stack.ss_size  = STACK_SIZE;
   m_context.uc_stack.ss_flags = 0;
+  m_label                     = label;
 
   makecontext(&m_context, start_routine, 0);
 }
@@ -34,12 +35,11 @@ void MP_Thread::swap(MP_Thread* next_thread) {
   swapcontext(this->get_context(), next_thread->get_context());
 }
 
-std::string MP_Thread::getLabel(){
-  return label;
+string MP_Thread::getLabel() {
+  return m_label;
 }
-std::ostream& operator<<(std::ostream& os, const MP_Thread& mp_thread){
-  os << mp_thread.label << std::endl;
+ostream& operator<<(ostream& os, const MP_Thread& mp_thread){
+  os << mp_thread.m_label << endl;
   return os;
 }
-
 
