@@ -15,10 +15,10 @@ void mp_wait() {
 }
 
 void* mp_malloc(int numbytes) {
-  return mp_os->thread_malloc(numbytes);
+  return mp_os->mp_malloc(numbytes);
 }
 
-void mp_free() {
-  return mp_os->thread_free();
+void mp_free(void * mem) {
+  return mp_os->mp_free(mem);
 }
 

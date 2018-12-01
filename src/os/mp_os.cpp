@@ -97,6 +97,7 @@ void MP_OS::handle_finished_threads(MP_Thread::MP_Status status, MP_Thread *thre
 
   std::string label = thread->getLabel();
   m_scheduler->RemoveThread(label);
+  m_memory_manager->deallocate(thread); // garbage collection
 }
 
 void MP_OS::start_quantum_timer() {
@@ -126,14 +127,14 @@ void MP_OS::quantum_expired() {
   m_dispatcher->context_switch();
 }
 
-void* MP_OS::thread_malloc(int numbytes) {
+void* MP_OS::mp_malloc(int numbytes) {
   MP_Thread *currentThread = m_dispatcher->get_running_thread();
   return m_memory_manager->allocate(numbytes, currentThread);
 }
 
-void MP_OS::thread_free() {
+void MP_OS::mp_free(void *mem) {
   MP_Thread *currentThread = m_dispatcher->get_running_thread();
-  return m_memory_manager->deallocate(currentThread);
+  return m_memory_manager->deallocate(currentThread, mem);
 }
 
 void MP_OS::setup_interrupt_handlers() {
