@@ -25,6 +25,43 @@ void MP_OS::thread_create(void (*start_routine)(), std::string label) {
   m_user_threads.push(thread);
 }
 
+void MP_OS::wait() {
+  int scheduleAlgo = m_scheduler->get_schedule_algo();
+  if(scheduleAlgo == MP_Scheduler::RERUN_FCFS || scheduleAlgo == MP_Scheduler::RERUN_ROUND_ROBIN) {
+    std::cout << "RERUN BEGIN" << std::endl;
+    ReSchedule();
+  }
+
+  try {
+    while (m_scheduler->has_ready_threads()) {
+      MP_Thread *next_thread = m_scheduler->get_next_thread();
+      m_logger->log<MP_Thread>(*next_thread);
+      next_thread->set_status(MP_Thread::RUNNING);
+
+      start_quantum_timer();
+      m_dispatcher->execute_thread(next_thread);
+      stop_quantum_timer();
+
+      MP_Thread::MP_Status status = m_quantum_exp ? MP_Thread::WAITING : MP_Thread::FINISHED;
+
+      next_thread->set_status(status);
+      handle_finished_threads(status, next_thread);
+    }
+  } catch(std::exception& e) {
+    log_stacktrace();
+  }
+}
+
+void* MP_OS::mp_malloc(int numbytes) {
+  MP_Thread *currentThread = m_dispatcher->get_running_thread();
+  return m_memory_manager->allocate(numbytes, currentThread);
+}
+
+void MP_OS::mp_free(void *mem) {
+  MP_Thread *currentThread = m_dispatcher->get_running_thread();
+  return m_memory_manager->deallocate(currentThread, mem);
+}
+
 void MP_OS::ReSchedule() {
   std::ifstream file = m_logger->ReadFile();
   std::string line;
@@ -53,33 +90,6 @@ void MP_OS::ReSchedule() {
 
   }
   thread_map.clear();
-}
-
-void MP_OS::wait() {
-  int scheduleAlgo = m_scheduler->get_schedule_algo();
-  if(scheduleAlgo == MP_Scheduler::RERUN_FCFS || scheduleAlgo == MP_Scheduler::RERUN_ROUND_ROBIN) {
-    std::cout << "RERUN BEGIN" << std::endl;
-    ReSchedule();
-  }
-
-  try {
-    while (m_scheduler->has_ready_threads()) {
-      MP_Thread *next_thread = m_scheduler->get_next_thread();
-      m_logger->log<MP_Thread>(*next_thread);
-      next_thread->set_status(MP_Thread::RUNNING);
-
-      start_quantum_timer();
-      m_dispatcher->execute_thread(next_thread);
-      stop_quantum_timer();
-
-      MP_Thread::MP_Status status = m_quantum_exp ? MP_Thread::WAITING : MP_Thread::FINISHED;
-
-      next_thread->set_status(status);
-      handle_finished_threads(status, next_thread);
-    }
-  } catch(std::exception& e) {
-    log_stacktrace();
-  }
 }
 
 void MP_OS::log_stacktrace() {
@@ -125,16 +135,6 @@ void MP_OS::quantum_expired() {
   MP_Thread *running_thread = m_dispatcher->get_running_thread();
   m_scheduler->add_ready(running_thread);
   m_dispatcher->context_switch();
-}
-
-void* MP_OS::mp_malloc(int numbytes) {
-  MP_Thread *currentThread = m_dispatcher->get_running_thread();
-  return m_memory_manager->allocate(numbytes, currentThread);
-}
-
-void MP_OS::mp_free(void *mem) {
-  MP_Thread *currentThread = m_dispatcher->get_running_thread();
-  return m_memory_manager->deallocate(currentThread, mem);
 }
 
 void MP_OS::setup_interrupt_handlers() {
