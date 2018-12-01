@@ -35,7 +35,7 @@ class MP_OS {
     std::queue<MP_Thread*> m_user_threads;
     void setup_interrupt_handlers();
     void setup_context_switch_interrupt_handler();
-    void start_quantum_timer();
+    void start_quantum_timer(int);
     void stop_quantum_timer();
     void set_quantum_timer(int);
     void quantum_expired();
