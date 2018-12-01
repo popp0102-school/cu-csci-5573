@@ -17,13 +17,13 @@ class MP_Thread {
     MP_Status get_status();
     void set_status(MP_Status);
     void swap(MP_Thread*);
-  std::string getLabel();
-  friend std::ostream& operator<<(std::ostream& os, const MP_Thread& mp_thread);
+    std::string getLabel();
+    friend std::ostream& operator<<(std::ostream& os, const MP_Thread& mp_thread);
 
   private:
     ucontext_t m_context;
     MP_Status m_status;
-  std::string label;
+    std::string label;
 };
 
 #endif
