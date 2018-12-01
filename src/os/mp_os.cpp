@@ -12,7 +12,7 @@ MP_OS::MP_OS(MP_Scheduler::schedule algo, int usec_quantum, std::string filename
   m_dispatcher     = new MP_Dispatcher(m_os_thread);
   m_memory_manager = new MP_MemoryManager();
   m_logger         = new MP_Logger(filename);
-  m_quantum_exp    = algo == MP_Scheduler::ROUND_ROBIN ? false : true;
+  m_quantum_exp    = true;
 
   setup_interrupt_handlers();
 }
@@ -109,6 +109,11 @@ void MP_OS::handle_finished_threads(MP_Thread::MP_Status status, MP_Thread *thre
 }
 
 void MP_OS::start_quantum_timer(int quantum) {
+  if(quantum == -1) {
+    return;
+  }
+
+  m_quantum_exp = false;
   set_quantum_timer(quantum);
 }
 
