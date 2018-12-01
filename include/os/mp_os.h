@@ -20,8 +20,8 @@ class MP_OS {
 
     void thread_create(void (*start_routine)(), std::string label);
     void wait();
-    void* thread_malloc(int numbytes);
-    void thread_free();
+    void* mp_malloc(int numbytes);
+    void mp_free(void *mem);
 
   private:
     MP_Logger *m_logger;
