@@ -4,8 +4,6 @@
 #include "mp_thread.h"
 #include <map>
 #include <string>
-#include <iostream>
-#include <iterator>
 
 class MP_MemoryManager{
   public:
