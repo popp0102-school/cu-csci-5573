@@ -16,6 +16,13 @@ void MP_MemoryManager::deallocate(MP_Thread *mp_thread){
 }
 
 void MP_MemoryManager::deallocate(MP_Thread *mp_thread, void* mem){
-
+  list<void *> memory_list = m_memory_map[mp_thread->getLabel()];
+  list<void *>::iterator it;
+  for(it = memory_list.begin(); it != memory_list.end(); it++) {
+    if(*it == mem) {
+      free(*it);
+      break;
+    }
+  }
 }
 
