@@ -29,7 +29,6 @@ class MP_OS {
     MP_Scheduler *m_scheduler;
     MP_Thread *m_os_thread;
     MP_MemoryManager *m_memory_manager;
-    int m_quantum;
     bool m_quantum_exp;
     struct itimerval m_quantum_timer;
     std::queue<MP_Thread*> m_user_threads;

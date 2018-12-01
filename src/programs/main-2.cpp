@@ -1,30 +1,30 @@
 #include "modulus-prime.h"
 #include <iostream>
 
-void function3() {
+void function1() {
   int count = 0;
   while(1) {
     count++;
     if (count % 100000000 == 0 ) {
-      std::cout << "function 3 here\n";
+      std::cout << "function 1 here\n";
     }
   }
 }
 
-void function4() {
+void function2() {
   int count = 0;
   while(1) {
     count++;
     if (count % 100000000 == 0 ) {
-      std::cout << "function 4 here\n";
+      std::cout << "function 2 here\n";
     }
   }
 }
 
 int main() {
-  mp_init(MP_Scheduler::ROUND_ROBIN, 900000, "main-2LOG.txt");
-  mp_add_thread(function3, "main-2-3");
-  mp_add_thread(function4, "main-2-4");
+  mp_init(MP_Scheduler::ROUND_ROBIN, 900000, "replay.txt");
+  mp_add_thread(function1, "thread1");
+  mp_add_thread(function2, "thread2");
   mp_wait();
 
   return 0;
