@@ -14,7 +14,7 @@ MP_Scheduler::MP_Scheduler(schedule algo, int quantum, string filename) {
 }
 
 bool MP_Scheduler::has_ready_threads() {
-  if((m_algo == RERUN && rerun_labels.empty()) || (m_algo != RERUN && m_ready_queue.empty())) {
+  if((m_algo == RERUN && rerun_queue.empty()) || (m_algo != RERUN && m_ready_queue.empty())) {
     return false;
   }
 
@@ -34,8 +34,8 @@ MP_Thread* MP_Scheduler::get_next_thread() {
     m_logger->log<MP_Thread>(*next_thread);
   } else if ( m_algo == RERUN ) {
 
-    string next = rerun_labels.front();
-    rerun_labels.pop();
+    string next = rerun_queue.front();
+    rerun_queue.pop();
 
     vector<string> results;
     boost::split(results, next, [](char c){return c == ',';});
@@ -44,8 +44,6 @@ MP_Thread* MP_Scheduler::get_next_thread() {
     int quantum       = atoi(results[1].c_str());
     next_thread       = m_thread_map[next_label];
     next_thread->set_quantum(quantum);
-
-    cout << "LETS GRAB label: " << next_label << " Quantum: " << quantum << endl;
   }
 
   return next_thread;
@@ -64,7 +62,7 @@ void MP_Scheduler::reschedule() {
     if(label == "") {
       break;
     }
-    rerun_labels.push(label);
+    rerun_queue.push(label);
   }
 }
 
@@ -78,17 +76,7 @@ void MP_Scheduler::add_ready(MP_Thread *thread) {
   }
 }
 
-MP_Scheduler::schedule MP_Scheduler::get_schedule_algo() {
-  return m_algo;
-}
-
-void MP_Scheduler::clear_ready() {
-  while(!m_ready_queue.empty()) {
-    m_ready_queue.pop();
-  }
-}
-
-void MP_Scheduler::RemoveThread(string label) {
+void MP_Scheduler::clear_thread(string label) {
   m_thread_map.erase(label);
 }
 

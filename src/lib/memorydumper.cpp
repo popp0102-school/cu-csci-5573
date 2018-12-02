@@ -32,17 +32,17 @@ double MemoryDumper::MemoryFromCPU(void)
   unsigned long long totalUser=0ULL, totalUserLow=0ULL, totalSys=0ULL, totalIdle=0ULL;
   try
   {
-    std::FILE* file = std::fopen("/proc/stat", "r");
-    std::fscanf(file, "cpu %llu %llu %llu %llu", &lastTotalUser, &lastTotalUserLow, &lastTotalSys, &lastTotalIdle);
-    std::fclose(file);
+    FILE* file = fopen("/proc/stat", "r");
+    fscanf(file, "cpu %llu %llu %llu %llu", &lastTotalUser, &lastTotalUserLow, &lastTotalSys, &lastTotalIdle);
+    fclose(file);
 
-    file = std::fopen("/proc/stat","r");
-    std::fscanf(file, "cpu %llu %llu %llu %llu", &totalUser, &totalUserLow, &totalSys, &totalIdle);
-    std::fclose(file);
+    file = fopen("/proc/stat","r");
+    fscanf(file, "cpu %llu %llu %llu %llu", &totalUser, &totalUserLow, &totalSys, &totalIdle);
+    fclose(file);
   }
-  catch(std::exception& e)
+  catch(exception& e)
   {
-    std::cout << '\n' << e.what() << '\n';
+    cout << '\n' << e.what() << '\n';
     throw e;
   }
 
@@ -70,7 +70,7 @@ double MemoryDumper::MemoryFromCPU(void)
 int MemoryDumper::ParseLine(char* line)
 {
   //Digit found and will have line ending with " KB"...
-  int i = std::strlen(line);
+  int i = strlen(line);
   const char *num = line;
   while(*num <'0' || *num > '9')
   {
@@ -83,18 +83,18 @@ int MemoryDumper::ParseLine(char* line)
 
 int MemoryDumper::GetFileInformationVirtual()
 {
-  std::FILE* file = std::fopen("/proc/self/status", "r");
+  FILE* file = fopen("/proc/self/status", "r");
   int result = -1;
   char line[128];
 
   while (fgets(line, 128, file) != NULL)
   {
-    if(std::strncmp(line, "VmSize: ", 7) == 0)
+    if(strncmp(line, "VmSize: ", 7) == 0)
     {
       result = ParseLine(line);
       break;
     }
   }
-  std::fclose(file);
+  fclose(file);
   return result;
 }

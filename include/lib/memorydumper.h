@@ -1,5 +1,6 @@
 #ifndef MEMORYDUMPER_H
 #define MEMORYDUMPER_H
+
 #include <sys/types.h>
 #include <sys/sysinfo.h>
 #include <stdlib.h>
@@ -11,6 +12,8 @@
 #include <sys/ptrace.h>
 #include <exception>
 #include <iostream>
+
+using namespace std;
 
 class MemoryDumper
 {
@@ -28,4 +31,6 @@ class MemoryDumper
     int GetFileInformationVirtual();
     struct sysinfo memInfo;
 };
+
 #endif
+

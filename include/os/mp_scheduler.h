@@ -18,18 +18,16 @@ class MP_Scheduler {
 
     void add_ready(MP_Thread*);
     bool has_ready_threads();
-    void RemoveThread(string);
+    void clear_thread(string);
     MP_Thread* get_next_thread();
-    schedule get_schedule_algo();
-    void clear_ready();
 
   private:
-    queue<MP_Thread*> m_ready_queue;
-    queue<string> rerun_labels;
-    map <string, MP_Thread*> m_thread_map;
     schedule m_algo;
-    int m_quantum;
+    queue<MP_Thread*> m_ready_queue;
+    queue<string> rerun_queue;
+    map <string, MP_Thread*> m_thread_map;
     MP_Logger *m_logger;
+    int m_quantum;
 
     void reschedule();
 };
