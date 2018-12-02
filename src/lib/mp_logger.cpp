@@ -1,11 +1,11 @@
 #include"mp_logger.h"
 
-MP_Logger::MP_Logger(std::string fileName) {
+MP_Logger::MP_Logger(string fileName) {
   this->fileName = fileName;
 }
 
-std::ifstream MP_Logger::ReadFile() {
-  std::ifstream infile(fileName);
+ifstream MP_Logger::ReadFile() {
+  ifstream infile(fileName);
   return infile;
 }
 

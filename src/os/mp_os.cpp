@@ -67,7 +67,7 @@ void MP_OS::handle_finished_threads(MP_Thread::MP_Status status, MP_Thread *thre
   }
 
   string label = thread->getLabel();
-  m_scheduler->RemoveThread(label);
+  m_scheduler->clear_thread(label);
   m_memory_manager->deallocate(thread); // garbage collection
 }
 
