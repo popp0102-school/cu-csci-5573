@@ -55,18 +55,21 @@ void MP_OS::mp_free(void *mem) {
 
 void MP_OS::log_stacktrace() {
   MemoryDumper* mpDump = new MemoryDumper();
-  m_logger->log<string>(GetStackTrace());
+  m_logger->log<string>("--- Stacktrace ---\n" + GetStackTrace() + "\n");
 
-  string thread_memory = "Thread Memory: " + to_string(mpDump->GetVirtualMemoryFromThread()) + "\n";
+  m_logger->log<string>("--- Memory/CPU Statistics ---\n");
+
+  string thread_memory = "\nThread Memory: " + to_string(mpDump->GetVirtualMemoryFromThread()) + " kilobytes\n";
   m_logger->log<string>(thread_memory);
 
-  string system_current_vm = "System Current Virtual Memory: " + to_string(mpDump->GetCurrentVirtualMemory()) + "\n";
+  string system_current_vm = "System Current Virtual Memory: " + to_string(mpDump->GetCurrentVirtualMemory()) + " bytes\n";
   m_logger->log<string>(system_current_vm);
 
-  string system_total_vm = "System Total Virtual Memory: " + to_string(mpDump->GetTotalVirtualMemory()) + "\n";
+  string system_total_vm = "System Total Virtual Memory: " + to_string(mpDump->GetTotalVirtualMemory()) + "  bytes\n";
   m_logger->log<string>(system_total_vm);
 
-  string cpu_percentage = "CPU Percentage: " + to_string(mpDump->CPU_Percentage()) + "\n";
+  double cpu = mpDump->CPU_Percentage();
+  string cpu_percentage = "CPU Percentage: " + to_string(cpu) + "\n";
   m_logger->log<string>(cpu_percentage);
 
   delete mpDump;

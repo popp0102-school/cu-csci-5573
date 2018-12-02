@@ -54,10 +54,15 @@ double MemoryDumper::CPU_Percentage(void)
   else
   {
     double total = (totalUser - lastTotalUser) + (totalUserLow - lastTotalUserLow) + (totalSys - lastTotalSys);
+
     percent = total;
     total += (totalIdle - lastTotalIdle);
-    percent /= total;
-    percent *= 100;
+
+    if (total == 0) {
+      percent = 0;
+    } else {
+      percent /= total;
+    }
   }
 
   lastTotalUser = totalUser;
