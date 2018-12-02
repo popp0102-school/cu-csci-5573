@@ -11,7 +11,7 @@ MP_OS::MP_OS(MP_Scheduler::schedule algo, int usec_quantum, std::string filename
   m_scheduler      = new MP_Scheduler(algo, usec_quantum, filename);
   m_dispatcher     = new MP_Dispatcher(m_os_thread);
   m_memory_manager = new MP_MemoryManager();
-  m_logger         = new MP_Logger(filename);
+  m_logger         = new MP_Logger("errors.txt");
   m_quantum_exp    = true;
 
   setup_interrupt_handlers();
@@ -81,6 +81,7 @@ void MP_OS::start_quantum_timer(int quantum) {
 }
 
 void MP_OS::stop_quantum_timer() {
+  m_quantum_exp = true;
   set_quantum_timer(0);
 }
 
@@ -95,7 +96,7 @@ void MP_OS::set_quantum_timer(int time) {
 
 void MP_OS::quantum_expired() {
   stop_quantum_timer();
-  m_quantum_exp = true;
+
   MP_Thread *running_thread = m_dispatcher->get_running_thread();
   m_scheduler->add_ready(running_thread);
   m_dispatcher->context_switch();
