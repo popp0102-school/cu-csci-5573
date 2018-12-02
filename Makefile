@@ -9,6 +9,7 @@ TESTAPP  := runTests
 DEMO     := demo
 DEMO1    := $(DEMO)-1
 DEMO2    := $(DEMO)-2
+DEMO3    := $(DEMO)-3
 
 BINDIR   := bin
 SRCDIR   := src
@@ -28,11 +29,12 @@ MAIN1RR   := $(PRGMDIR)/main-1Rerun.cpp
 
 DEMOSRC1  := $(PRGMDIR)/demo-1.cpp
 DEMOSRC2  := $(PRGMDIR)/demo-2.cpp
+DEMOSRC3  := $(PRGMDIR)/demo-3.cpp
 
 SRCFILES  := $(shell find $(SRCDIR) -type f -name '*.cpp' -not -path "$(PRGMDIR)/*")
 TESTFILES := $(shell find $(TESTDIR) -type f -name '*cpp')
 
-all: clean app1 app2 app3 app4 app1RR test demo1 demo2
+all: clean app1 app2 app3 app4 app1RR test demo1 demo2 demo3
 
 app1: $(BINDIR)/$(APP1)
 app2: $(BINDIR)/$(APP2)
@@ -42,12 +44,16 @@ app1RR: $(BINDIR)/$(APP1RR)
 test: $(BINDIR)/$(TESTAPP)
 demo1: $(BINDIR)/$(DEMO1)
 demo2: $(BINDIR)/$(DEMO2)
+demo3: $(BINDIR)/$(DEMO3)
 
 $(BINDIR)/$(DEMO1):
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $(SRCFILES) $(DEMOSRC1) -o $@ $(LDFLAGS)
 
 $(BINDIR)/$(DEMO2):
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $(SRCFILES) $(DEMOSRC2) -o $@ $(LDFLAGS)
+
+$(BINDIR)/$(DEMO3):
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $(SRCFILES) $(DEMOSRC3) -o $@ $(LDFLAGS)
 
 $(BINDIR)/$(APP1):
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $(SRCFILES) $(MAIN1) -o $@ $(LDFLAGS)
