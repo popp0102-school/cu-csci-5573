@@ -41,7 +41,6 @@ class MP_OS {
     void handle_finished_threads(MP_Thread::MP_Status, MP_Thread*);
     void log_stacktrace();
     void segfault_recovery();
-    void ReSchedule();
 
     static MP_OS* os;
     static void context_switch_interrupt_handler(int i);

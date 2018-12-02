@@ -49,7 +49,7 @@ string MP_Thread::getLabel() {
   return m_label;
 }
 ostream& operator<<(ostream& os, const MP_Thread& mp_thread){
-  os << mp_thread.m_label << endl;
+  os << mp_thread.m_label << "," << mp_thread.m_quantum << endl;
   return os;
 }
 
