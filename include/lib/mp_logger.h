@@ -25,4 +25,6 @@ void MP_Logger::log(T mp_obj)
         logFile << mp_obj;
         logFile.close();
 }
+
 #endif
+

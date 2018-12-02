@@ -8,3 +8,4 @@ std::ifstream MP_Logger::ReadFile() {
   std::ifstream infile(fileName);
   return infile;
 }
+
