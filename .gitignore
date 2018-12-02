@@ -4,6 +4,7 @@
 *.swo
 *.o
 bin/modulusPrime*
+bin/demo*
 bin/runTests*
 build/*
 src/*.d

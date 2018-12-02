@@ -84,7 +84,6 @@ void MP_OS::start_quantum_timer(int quantum) {
 }
 
 void MP_OS::stop_quantum_timer() {
-  m_quantum_exp = true;
   set_quantum_timer(0);
 }
 
@@ -98,6 +97,7 @@ void MP_OS::set_quantum_timer(int time) {
 }
 
 void MP_OS::quantum_expired() {
+  m_quantum_exp = true;
   stop_quantum_timer();
 
   MP_Thread *running_thread = m_dispatcher->get_running_thread();

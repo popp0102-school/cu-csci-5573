@@ -7,7 +7,7 @@ MP_Dispatcher::MP_Dispatcher(MP_Thread *os_thread) {
 }
 
 void MP_Dispatcher::context_switch() {
-  std::cout << "CONTEXT SWITCH!\n";
+  //std::cout << "CONTEXT SWITCH!\n";
   execute_thread(m_os_thread);
 }
 
