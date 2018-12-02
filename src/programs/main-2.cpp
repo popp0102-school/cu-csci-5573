@@ -22,7 +22,7 @@ void function2() {
 }
 
 int main() {
-  mp_init(MP_Scheduler::ROUND_ROBIN, 900000, "replay.txt");
+  mp_init(MP_Scheduler::RERUN, 900000, "replay.txt");
   mp_add_thread(function1, "thread1");
   mp_add_thread(function2, "thread2");
   mp_wait();

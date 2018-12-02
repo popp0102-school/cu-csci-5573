@@ -1,13 +1,20 @@
 #include "mp_scheduler.h"
+#include <boost/algorithm/string.hpp>
 
 MP_Scheduler::MP_Scheduler(schedule algo, int quantum, string filename) {
   m_algo    = algo;
-  m_quantum = algo == ROUND_ROBIN ? quantum : -1;
   m_logger  = new MP_Logger(filename);
+  m_quantum = -1;
+
+  if(m_algo == ROUND_ROBIN) {
+    m_quantum = quantum;
+  } else if (m_algo == RERUN) {
+    reschedule();
+  }
 }
 
 bool MP_Scheduler::has_ready_threads() {
-  if( m_ready_queue.empty() ) {
+  if((m_algo == RERUN && rerun_labels.empty()) || (m_algo != RERUN && m_ready_queue.empty())) {
     return false;
   }
 
@@ -15,30 +22,60 @@ bool MP_Scheduler::has_ready_threads() {
 }
 
 MP_Thread* MP_Scheduler::get_next_thread() {
-  MP_Thread* next_thread = NULL;
-
-  if( has_ready_threads() ) {
-    if( m_algo == FCFS || m_algo == ROUND_ROBIN || m_algo == RERUN_FCFS || m_algo == RERUN_ROUND_ROBIN) {
-      next_thread = m_ready_queue.front();
-      m_ready_queue.pop();
-    }
+  if( ! has_ready_threads() ) {
+    return NULL;
   }
 
-  m_logger->log<MP_Thread>(*next_thread);
+  MP_Thread* next_thread = NULL;
+
+  if( m_algo == FCFS || m_algo == ROUND_ROBIN || m_algo == RERUN_FCFS || m_algo == RERUN_ROUND_ROBIN) {
+    next_thread = m_ready_queue.front();
+    m_ready_queue.pop();
+    m_logger->log<MP_Thread>(*next_thread);
+  } else if ( m_algo == RERUN ) {
+
+    string next = rerun_labels.front();
+    rerun_labels.pop();
+
+    vector<string> results;
+    boost::split(results, next, [](char c){return c == ',';});
+
+    string next_label = results[0];
+    int quantum       = atoi(results[1].c_str());
+    next_thread       = m_thread_map[next_label];
+    next_thread->set_quantum(quantum);
+
+    cout << "LETS GRAB label: " << next_label << " Quantum: " << quantum << endl;
+  }
+
   return next_thread;
 }
 
-bool MP_Scheduler::needs_quantum() {
- if( m_algo == ROUND_ROBIN || m_algo == RERUN_ROUND_ROBIN) {
-   return true;
- }
-
- return false;
+void MP_Scheduler::reschedule() {
+  ifstream file = m_logger->ReadFile();
+  string line;
+  while(getline(file, line)){
+    istringstream iss(line);
+    string label;
+    if(!(iss >> label)){
+      cout << "ERROR READING IN LINE" << endl;
+      break;
+    }
+    if(label == "") {
+      break;
+    }
+    rerun_labels.push(label);
+  }
 }
 
 void MP_Scheduler::add_ready(MP_Thread *thread) {
   thread->set_quantum(m_quantum);
-  m_ready_queue.push(thread);
+
+  if(m_algo == RERUN) {
+    m_thread_map[thread->getLabel()] = thread;
+  } else {
+    m_ready_queue.push(thread);
+  }
 }
 
 MP_Scheduler::schedule MP_Scheduler::get_schedule_algo() {
