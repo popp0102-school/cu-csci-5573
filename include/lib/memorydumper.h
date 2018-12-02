@@ -24,7 +24,7 @@ class MemoryDumper
     int GetVirtualMemoryFromThread(void);
 
     //CPU Information
-    double MemoryFromCPU(void);
+    double CPU_Percentage(void);
 
   private:
     int ParseLine(char* line);

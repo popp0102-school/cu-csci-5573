@@ -25,7 +25,7 @@ int MemoryDumper::GetVirtualMemoryFromThread(void)
 }
 
 //CPU Information
-double MemoryDumper::MemoryFromCPU(void)
+double MemoryDumper::CPU_Percentage(void)
 {
   unsigned long long lastTotalUser=0ULL, lastTotalUserLow=0ULL, lastTotalSys=0ULL, lastTotalIdle=0ULL;
   double percent=0.0;

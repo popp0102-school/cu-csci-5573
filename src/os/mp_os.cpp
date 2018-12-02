@@ -56,7 +56,10 @@ void MP_OS::mp_free(void *mem) {
 void MP_OS::log_stacktrace() {
   MemoryDumper* mpDump = new MemoryDumper();
   m_logger->log<string>(GetStackTrace());
+  m_logger->log<long long>(mpDump->GetVirtualMemoryFromThread());
   m_logger->log<long long>(mpDump->GetCurrentVirtualMemory());
+  m_logger->log<int>(mpDump->GetTotalVirtualMemory());
+  m_logger->log<double>(mpDump->CPU_Percentage());
   delete mpDump;
   mpDump = NULL;
 }

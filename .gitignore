@@ -1,5 +1,6 @@
 *.txt
 *.swp
+*.swn
 *.swo
 *.o
 bin/modulusPrime*
