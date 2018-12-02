@@ -36,7 +36,7 @@ void MP_OS::wait() {
       MP_Thread::MP_Status status = m_quantum_exp ? MP_Thread::WAITING : MP_Thread::FINISHED;
 
       next_thread->set_status(status);
-      handle_finished_threads(status, next_thread);
+      handle_finished_threads(next_thread);
     }
   } catch(exception& e) {
     log_stacktrace();
@@ -61,8 +61,8 @@ void MP_OS::log_stacktrace() {
   mpDump = NULL;
 }
 
-void MP_OS::handle_finished_threads(MP_Thread::MP_Status status, MP_Thread *thread) {
-  if(status != MP_Thread::FINISHED) {
+void MP_OS::handle_finished_threads(MP_Thread *thread) {
+  if(thread->get_status() != MP_Thread::FINISHED) {
     return;
   }
 
