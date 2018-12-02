@@ -40,7 +40,7 @@ class MP_OS {
     void quantum_expired();
 
     // Cleanup / Garbage Collection
-    void handle_finished_threads(MP_Thread::MP_Status, MP_Thread*);
+    void handle_finished_threads(MP_Thread*);
 
     // Recovery Handling
     void log_stacktrace();
