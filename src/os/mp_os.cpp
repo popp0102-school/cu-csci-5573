@@ -1,11 +1,12 @@
+#include "mp_os.h"
+
 #include <signal.h>
 #include <iostream>
-#include <map>
-#include "mp_os.h"
+#include <exception>
 
 MP_OS* MP_OS::os = NULL;
 
-MP_OS::MP_OS(MP_Scheduler::schedule algo, int usec_quantum, std::string filename) {
+MP_OS::MP_OS(MP_Scheduler::schedule algo, int usec_quantum, string filename) {
   os               = this;
   m_os_thread      = new MP_Thread();
   m_scheduler      = new MP_Scheduler(algo, usec_quantum, filename);
@@ -17,10 +18,9 @@ MP_OS::MP_OS(MP_Scheduler::schedule algo, int usec_quantum, std::string filename
   setup_interrupt_handlers();
 }
 
-void MP_OS::thread_create(void (*start_routine)(), std::string label) {
+void MP_OS::thread_create(void (*start_routine)(), string label) {
   MP_Thread *thread = new MP_Thread(start_routine, m_os_thread, label);
   m_scheduler->add_ready(thread);
-  m_user_threads.push(thread);
 }
 
 void MP_OS::wait() {
@@ -38,7 +38,7 @@ void MP_OS::wait() {
       next_thread->set_status(status);
       handle_finished_threads(status, next_thread);
     }
-  } catch(std::exception& e) {
+  } catch(exception& e) {
     log_stacktrace();
   }
 }
@@ -55,7 +55,7 @@ void MP_OS::mp_free(void *mem) {
 
 void MP_OS::log_stacktrace() {
   MemoryDumper* mpDump = new MemoryDumper();
-  m_logger->log<std::string>(GetStackTrace());
+  m_logger->log<string>(GetStackTrace());
   m_logger->log<long long>(mpDump->GetCurrentVirtualMemory());
   delete mpDump;
   mpDump = NULL;
@@ -66,7 +66,7 @@ void MP_OS::handle_finished_threads(MP_Thread::MP_Status status, MP_Thread *thre
     return;
   }
 
-  std::string label = thread->getLabel();
+  string label = thread->getLabel();
   m_scheduler->RemoveThread(label);
   m_memory_manager->deallocate(thread); // garbage collection
 }
