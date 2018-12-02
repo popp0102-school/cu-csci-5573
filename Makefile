@@ -12,6 +12,7 @@ DEMO2    := $(DEMO)-2
 DEMO3    := $(DEMO)-3
 DEMO4    := $(DEMO)-4
 DEMO5    := $(DEMO)-5
+DEMO6    := $(DEMO)-6
 
 BINDIR   := bin
 SRCDIR   := src
@@ -34,6 +35,7 @@ DEMOSRC2  := $(PRGMDIR)/demo-2.cpp
 DEMOSRC3  := $(PRGMDIR)/demo-3.cpp
 DEMOSRC4  := $(PRGMDIR)/demo-4.cpp
 DEMOSRC5  := $(PRGMDIR)/demo-5.cpp
+DEMOSRC6  := $(PRGMDIR)/demo-6.cpp
 
 SRCFILES  := $(shell find $(SRCDIR) -type f -name '*.cpp' -not -path "$(PRGMDIR)/*")
 TESTFILES := $(shell find $(TESTDIR) -type f -name '*cpp')
@@ -42,7 +44,7 @@ all: clean test apps demo
 
 apps: app1 app2 app3 app4 app1RR
 
-demo: clean demo1 demo2 demo3 demo4 demo5
+demo: clean demo1 demo2 demo3 demo4 demo5 demo6
 
 app1: $(BINDIR)/$(APP1)
 app2: $(BINDIR)/$(APP2)
@@ -56,6 +58,7 @@ demo2: $(BINDIR)/$(DEMO2)
 demo3: $(BINDIR)/$(DEMO3)
 demo4: $(BINDIR)/$(DEMO4)
 demo5: $(BINDIR)/$(DEMO5)
+demo6: $(BINDIR)/$(DEMO6)
 
 $(BINDIR)/$(DEMO1):
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $(SRCFILES) $(DEMOSRC1) -o $@ $(LDFLAGS)
@@ -71,6 +74,9 @@ $(BINDIR)/$(DEMO4):
 
 $(BINDIR)/$(DEMO5):
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $(SRCFILES) $(DEMOSRC5) -o $@ $(LDFLAGS)
+
+$(BINDIR)/$(DEMO6):
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $(SRCFILES) $(DEMOSRC6) -o $@ $(LDFLAGS)
 
 $(BINDIR)/$(APP1):
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $(SRCFILES) $(MAIN1) -o $@ $(LDFLAGS)
