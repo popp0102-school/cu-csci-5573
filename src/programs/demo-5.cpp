@@ -1,33 +1,48 @@
 #include "modulus-prime.h"
+#include <queue>
 #include <iostream>
 #include <unistd.h>
 
-// Demo 5 - Segfault Crash
+// Demo 5 - Bounded Buffer
 //
-// Because of the order dependency of the way this was implemented
-// we will get a segfault if thread 2 is run before thread 1
+// Ordinary Producer Consumer using mp-threads
 
-class Dummy {
-  public:
-  string dummyName;
-};
+queue<string> buffer;
 
-Dummy *dummy1 = NULL;
+void Producer(){
+  int value = 0;
 
-void function1(){
-  dummy1 = new Dummy();
-  cout << "function 1 executing, dummy object, dummy1 instantiated" <<  endl;
+  while(1) {
+    sleep(1000);
+    value = rand() % 100;
+    cout << "\nQueue Size: " << buffer.size() << endl;
+    cout << "Producing value: " << value << endl;
+    buffer.push(to_string(value));
+  }
 }
 
-void function2(){
-  dummy1->dummyName = "BIG DUMMY!";
-  cout << "function 2 executing, dummy1 named " << dummy1->dummyName << endl;
+void Consumer(){
+  while(1) {
+    if(!buffer.empty()) {
+      string element = buffer.front();
+      buffer.pop();
+      cout << "Consuming element: " << element << endl << endl;
+    } else {
+      cout << "Taking a nap not much to do\n";
+      sleep(100);
+    }
+  }
 }
 
 int main() {
-  mp_init(MP_Scheduler::FCFS, 500000, "demo-5.txt");
-  mp_add_thread(function2,"thread2");
-  mp_add_thread(function1,"thread1");
+  mp_init(MP_Scheduler::ROUND_ROBIN, 500000, "demo-5.txt");
+
+  mp_add_thread(Producer, "producer1");
+  mp_add_thread(Producer, "producer2");
+  mp_add_thread(Producer, "producer3");
+  mp_add_thread(Producer, "producer4");
+  mp_add_thread(Producer, "producer5");
+  mp_add_thread(Consumer, "consumer");
   mp_wait();
 
   return 0;

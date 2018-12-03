@@ -28,7 +28,7 @@ MP_Thread* MP_Scheduler::get_next_thread() {
 
   MP_Thread* next_thread = NULL;
 
-  if( m_algo == FCFS || m_algo == ROUND_ROBIN || m_algo == RERUN_FCFS || m_algo == RERUN_ROUND_ROBIN) {
+  if( m_algo == FCFS || m_algo == ROUND_ROBIN) {
     next_thread = m_ready_queue.front();
     m_ready_queue.pop();
     m_logger->log<MP_Thread>(*next_thread);
@@ -43,6 +43,7 @@ MP_Thread* MP_Scheduler::get_next_thread() {
     string next_label = results[0];
     int quantum       = atoi(results[1].c_str());
     next_thread       = m_thread_map[next_label];
+
     next_thread->set_quantum(quantum);
   }
 

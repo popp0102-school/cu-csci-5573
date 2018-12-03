@@ -2,20 +2,30 @@
 #include <iostream>
 #include <unistd.h>
 
-// Scheduling FCFS
+// Memory allocation and deallocation demo for a single thread
+// mp_malloc - allocate and keep track of memory for the thread
+// mp_free   - explicitly free this memory
+
 
 void function1() {
-  std::cout << "FUNCTION 1!!!\n";
-}
+  cout << "Allocating memory\n";
+  sleep(5);
 
-void function2() {
-  std::cout << "FUNCTION 2!!!\n";
+  int* mem = (int*) mp_malloc(1000000000);
+  cout << "Finished allocating memory\n";
+
+  sleep(5);
+  cout << "Freeing Memory\n";
+
+  mp_free(mem);
+  sleep(5);
+
+  cout << "Memory Freed\n";
 }
 
 int main() {
-  mp_init(MP_Scheduler::FCFS, -1, "demo-3.txt");
+  mp_init(MP_Scheduler::FCFS, 0, "demo-3.txt");
   mp_add_thread(function1,"thread-1");
-  mp_add_thread(function2,"thread-2");
   mp_wait();
 
   return 0;

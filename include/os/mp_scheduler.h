@@ -13,7 +13,7 @@ using namespace std;
 
 class MP_Scheduler {
   public:
-    enum schedule { FCFS, ROUND_ROBIN, RERUN_FCFS, RERUN_ROUND_ROBIN, RERUN };
+    enum schedule { FCFS, ROUND_ROBIN, RERUN };
     MP_Scheduler(schedule, int, string);
 
     void add_ready(MP_Thread*);
